@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Prestige Elite Std';
+    src: url('/fonts/PrestigeEliteStd-Bd.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: RideSlow;
+    src: url('/fonts/Ride Slow.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Courier New';
+    src: local('Courier New');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TAYRosemary';
+    src: url('/fonts/TAYRosemary.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'TAYDumpling';
+    src: url('/fonts/TAYDumpling.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'TAYMakawao';
+    src: url('/fonts/TAYMakawao.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'TayManna';
+    src: url('/fonts/TayManna.otf') format('opentype');
+}
+
+@layer base {
+    body {
+        @apply bg-[#ece8d9] text-[#231f20];
+        font-family: 'Courier New', monospace;
+        font-size: 16px;
+        line-height: 1.6;
+        letter-spacing: 0.01em;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: RideSlow, sans-serif;
+        letter-spacing: 0.02em;
+        line-height: 1.1;
+    }
+
+    /* Make paragraph text more readable */
+    p {
+        max-width: 65ch;
+        margin-bottom: 1em;
+    }
+
+    .prose {
+        @apply bg-[#eceadf] text-[#231f20];
+    }
+}
+
+@layer utilities {
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+:root {
+    --color-tan: #ece8d9;
+    --color-red: #e43720;
+    --color-text: #231f20;
+    --foreground-rgb: 35, 31, 32;
+    --background-rgb: 236, 232, 217;
+}
+
+body {
+    color: var(--color-text);
+    background: var(--color-tan);
+    min-height: 100vh;
+    font-feature-settings: "liga" 1, "kern" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 8vw, 80px);
+    line-height: 0.9;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+h2 {
+    font-size: clamp(1.8rem, 5vw, 48px);
+    text-transform: uppercase;
+}
+
+h3 {
+    font-size: clamp(1.5rem, 4vw, 36px);
+}
+
+@layer components {
+    .text-red {
+        color: var(--color-red);
+    }
+
+    .bg-red {
+        background-color: var(--color-red);
+    }
+
+    .hover\:bg-red:hover {
+        background-color: var(--color-red);
+    }
+
+    .border-red {
+        border-color: var(--color-red);
+    }
+
+    .editorial-layout {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 2rem;
+        padding: 0 2rem;
+    }
+
+    .editorial-text {
+        font-size: clamp(1.2rem, 2vw, 1.5rem);
+        line-height: 1.3;
+        font-weight: 300;
+    }
+}

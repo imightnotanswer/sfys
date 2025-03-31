@@ -1,4 +1,5 @@
-// Force Vercel redeploy
+// Force Vercel redeploy - test auto-deploy
+// Testing Vercel auto-deploy connection
 import type { Metadata } from 'next'
 import { Space_Mono } from 'next/font/google'
 import localFont from 'next/font/local'

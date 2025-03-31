@@ -20,13 +20,20 @@ export default function Header() {
                     </Link>
 
                     {/* Logo */}
-                    <Image
-                        src="/radio-logo.png"
-                        alt="TOURISTS Radio Logo"
-                        width={210}
-                        height={210}
-                        className="object-contain shrink-0"
-                    />
+                    <a
+                        href="http://touristswelcome.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group"
+                    >
+                        <Image
+                            src="/radio-logo.png"
+                            alt="TOURISTS Radio Logo"
+                            width={210}
+                            height={210}
+                            className="object-contain shrink-0 transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
+                        />
+                    </a>
 
                     {/* Contact Info (only visible when enough space) */}
                     <div className="text-base space-y-1 font-['Gotham Narrow'] text-center min-[1400px]:block hidden whitespace-normal shrink-0 text-[rgb(93,93,91)]">
@@ -106,13 +113,20 @@ export default function Header() {
 
                 {/* Mobile Layout */}
                 <div className="md:hidden flex flex-col items-center gap-4 px-4">
-                    <Image
-                        src="/radio-logo.png"
-                        alt="TOURISTS Radio Logo"
-                        width={150}
-                        height={150}
-                        className="object-contain"
-                    />
+                    <a
+                        href="http://touristswelcome.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group"
+                    >
+                        <Image
+                            src="/radio-logo.png"
+                            alt="TOURISTS Radio Logo"
+                            width={150}
+                            height={150}
+                            className="object-contain transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
+                        />
+                    </a>
                     <Link href="/" className="block text-center -mt-4">
                         <h1 className="text-[clamp(36px,8vw,60px)] leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors">
                             SING FOR YOUR SLUMBER

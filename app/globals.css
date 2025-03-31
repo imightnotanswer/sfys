@@ -49,12 +49,25 @@
 }
 
 @layer base {
+    html {
+        @apply bg-[#ece8d9] text-[#231f20];
+        width: 100vw;
+        overflow-x: hidden;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+
     body {
         @apply bg-[#ece8d9] text-[#231f20];
         font-family: 'Courier New', monospace;
         font-size: 16px;
         line-height: 1.6;
         letter-spacing: 0.01em;
+        width: 100%;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        position: relative;
+        overflow-x: hidden;
     }
 
     h1,

@@ -9,12 +9,12 @@ export default function Header() {
     return (
         <header className="w-full">
             {/* Main header content */}
-            <div className="py-4 pb-0">
+            <div className="py-4 pb-0 w-full overflow-x-hidden">
                 {/* Desktop and Tablet Layout */}
-                <div className="hidden md:flex items-center justify-between gap-8 px-8">
+                <div className="hidden md:flex items-center justify-between gap-8 px-8 max-w-[2000px] mx-auto">
                     {/* Title */}
                     <Link href="/" className="block shrink-0 -mt-4">
-                        <h1 className="text-[84px] leading-[0.9] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors">
+                        <h1 className="text-[clamp(48px,5vw,84px)] leading-[0.9] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors whitespace-normal">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>
@@ -29,7 +29,7 @@ export default function Header() {
                     />
 
                     {/* Contact Info (only visible when enough space) */}
-                    <div className="text-base space-y-1 font-['Gotham Narrow'] text-center min-[1400px]:block hidden whitespace-nowrap shrink-0 text-[rgb(93,93,91)]">
+                    <div className="text-base space-y-1 font-['Gotham Narrow'] text-center min-[1400px]:block hidden whitespace-normal shrink-0 text-[rgb(93,93,91)]">
                         <a
                             href="https://goo.gl/maps/KeGVsBu7MZ52"
                             target="_blank"
@@ -105,7 +105,7 @@ export default function Header() {
                 </div>
 
                 {/* Mobile Layout */}
-                <div className="md:hidden flex flex-col items-center gap-4">
+                <div className="md:hidden flex flex-col items-center gap-4 px-4">
                     <Image
                         src="/radio-logo.png"
                         alt="TOURISTS Radio Logo"
@@ -114,7 +114,7 @@ export default function Header() {
                         className="object-contain"
                     />
                     <Link href="/" className="block text-center -mt-4">
-                        <h1 className="text-6xl leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors">
+                        <h1 className="text-[clamp(36px,8vw,60px)] leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>

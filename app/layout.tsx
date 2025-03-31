@@ -25,6 +25,12 @@ const gothamNarrow = localFont({
 export const metadata: Metadata = {
     title: 'Sing For Your Slumber',
     description: 'A live music series in North Adams, MA',
+    viewport: {
+        width: 'device-width',
+        initialScale: 1,
+        maximumScale: 1,
+        userScalable: false,
+    },
 }
 
 export default function RootLayout({
@@ -33,9 +39,9 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className={`${spaceMono.variable} ${wingman.variable} ${gothamNarrow.variable} font-sans min-h-screen flex flex-col antialiased bg-[#ece8d9] text-[#231f20]`}>
-            <body>
-                <div className="bg-[#231f20] text-[#eceadf] flex items-center justify-center py-1">
+        <html lang="en" className={`${spaceMono.variable} ${wingman.variable} ${gothamNarrow.variable} font-sans antialiased bg-[#ece8d9] text-[#231f20]`}>
+            <body className="min-h-screen flex flex-col">
+                <div className="bg-[#231f20] text-[#eceadf] flex items-center justify-center py-1 w-full">
                     <p className="font-['Prestige Elite Std'] font-bold text-[14px] leading-[20px] italic max-w-3xl mx-auto px-4">
                         BE IN THE KNOW ABOUT UPCOMING SHOWS
                     </p>

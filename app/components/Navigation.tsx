@@ -11,33 +11,35 @@ export default function Navigation() {
     return (
         <nav className="py-0">
             {/* Desktop/Tablet Navigation */}
-            <div className="hidden md:flex flex-wrap gap-x-8 gap-y-1 px-8 lg:justify-start justify-center -mt-4">
-                <Link
-                    href="/"
-                    className={`text-3xl lg:text-4xl font-[RideSlow] tracking-wide transition-colors ${isActive('/') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
-                >
-                    HOME
-                </Link>
-                <Link
-                    href="/about"
-                    className={`text-3xl lg:text-4xl font-[RideSlow] tracking-wide transition-colors ${isActive('/about') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
-                >
-                    ABOUT
-                </Link>
-                <Link
-                    href="/contact"
-                    className={`text-3xl lg:text-4xl font-[RideSlow] tracking-wide transition-colors ${isActive('/contact') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
-                >
-                    CONTACT
-                </Link>
-                <a
-                    href="https://touristswelcome.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-3xl lg:text-4xl font-[RideSlow] tracking-wide hover:text-[#e43720] transition-colors"
-                >
-                    HOTEL
-                </a>
+            <div className="hidden md:block px-8">
+                <div className="flex flex-wrap gap-x-8 gap-y-1 justify-start">
+                    <Link
+                        href="/"
+                        className={`text-3xl lg:text-4xl font-[RideSlow] tracking-wide transition-colors ${isActive('/') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                    >
+                        HOME
+                    </Link>
+                    <Link
+                        href="/about"
+                        className={`text-3xl lg:text-4xl font-[RideSlow] tracking-wide transition-colors ${isActive('/about') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                    >
+                        ABOUT
+                    </Link>
+                    <Link
+                        href="/contact"
+                        className={`text-3xl lg:text-4xl font-[RideSlow] tracking-wide transition-colors ${isActive('/contact') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                    >
+                        CONTACT
+                    </Link>
+                    <a
+                        href="https://touristswelcome.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-3xl lg:text-4xl font-[RideSlow] tracking-wide hover:text-[#e43720] transition-colors"
+                    >
+                        HOTEL
+                    </a>
+                </div>
             </div>
 
             {/* Mobile Navigation */}

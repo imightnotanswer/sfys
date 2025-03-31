@@ -119,8 +119,8 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
     }
 
     return (
-        <div className="relative w-full max-w-[600px] mx-auto -mb-40">
-            <div className="flex flex-col -space-y-16">
+        <div className="relative w-full max-w-[600px] mx-auto">
+            <div className="flex flex-col">
                 {currentFlyer?.title && (
                     <h1 className="text-[min(8vw,4rem)] font-[TAYFlapjack] tracking-wide text-center">
                         {currentFlyer.title}

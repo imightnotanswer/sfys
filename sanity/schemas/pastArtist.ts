@@ -1,35 +1,41 @@
-import { Rule } from '@sanity/types'
+import { defineType, defineField } from 'sanity'
 
-export default {
+export default defineType({
     name: 'pastArtist',
     title: 'Past Artist',
     type: 'document',
     fields: [
-        {
+        defineField({
             name: 'name',
             title: 'Artist Name',
             type: 'string',
-            validation: (Rule: Rule) => Rule.required()
-        },
-        {
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'date',
+            title: 'Performance Date',
+            type: 'date',
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'link',
+            title: 'Artist Website',
+            type: 'url'
+        }),
+        defineField({
             name: 'image',
             title: 'Artist Image',
             type: 'image',
             options: {
                 hotspot: true
-            },
-            validation: (Rule: Rule) => Rule.required()
-        },
-        {
-            name: 'website',
-            title: 'Artist Website',
-            type: 'url'
-        }
+            }
+        })
     ],
     preview: {
         select: {
             title: 'name',
+            date: 'date',
             media: 'image'
         }
     }
-} 
+}) 

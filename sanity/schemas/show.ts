@@ -1,76 +1,76 @@
-import { Rule } from '@sanity/types'
+import { defineType, defineField } from 'sanity'
 
-export default {
+export default defineType({
     name: 'show',
     title: 'Show',
     type: 'document',
     fields: [
-        {
+        defineField({
             name: 'title',
             title: 'Show Title',
             type: 'string',
-            validation: (Rule: Rule) => Rule.required()
-        },
-        {
+            description: 'The title of the show',
+            validation: rule => rule.required()
+        }),
+        defineField({
             name: 'date',
-            title: 'Show Date & Time',
+            title: 'Show Date',
             type: 'datetime',
-            validation: (Rule: Rule) => Rule.required()
-        },
-        {
-            name: 'mainArtist',
-            title: 'Main Artist',
-            type: 'reference',
-            to: [{ type: 'artist' }],
-            validation: (Rule: Rule) => Rule.required()
-        },
-        {
-            name: 'supportingArtists',
-            title: 'Supporting Artists',
-            type: 'array',
-            of: [{ type: 'reference', to: [{ type: 'artist' }] }]
-        },
-        {
-            name: 'images',
-            title: 'Show Images',
-            type: 'array',
-            of: [
-                {
-                    type: 'image',
-                    options: {
-                        hotspot: true
-                    }
-                }
-            ],
-            validation: (Rule: Rule) => Rule.required().min(1)
-        },
-        {
+            description: 'The date and time of the show',
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'location',
+            title: 'Show Location',
+            type: 'string',
+            description: 'The location of the show',
+            validation: rule => rule.required()
+        }),
+        defineField({
             name: 'description',
-            title: 'Show Description (Shown in Dropdown)',
+            title: 'Show Description',
             type: 'text',
-            validation: (Rule: Rule) => Rule.required()
-        },
-        {
-            name: 'processed',
-            title: 'Processed for Past Artists',
+            description: 'A description of the show',
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'ticketLink',
+            title: 'Ticket Link',
+            type: 'url',
+            description: 'Link to purchase tickets'
+        }),
+        defineField({
+            name: 'isFeatured',
+            title: 'Featured Show',
             type: 'boolean',
-            initialValue: false,
-            hidden: true // Hide this field in the Studio UI
-        }
+            description: 'Whether this show should be featured on the homepage',
+            initialValue: false
+        }),
+        defineField({
+            name: 'artists',
+            title: 'Artists',
+            type: 'array',
+            of: [{ type: 'reference', to: [{ type: 'artist' }] }],
+            description: 'The artists performing at this show'
+        }),
+        defineField({
+            name: 'flyer',
+            title: 'Show Flyer',
+            type: 'image',
+            description: 'The flyer image for the show'
+        })
     ],
     preview: {
         select: {
             title: 'title',
-            subtitle: 'date',
-            media: 'images.0'
+            date: 'date'
         },
         prepare(selection) {
-            const { title, subtitle, media } = selection
+            const { title, date } = selection
             return {
                 title: title,
-                subtitle: new Date(subtitle).toLocaleDateString(),
-                media: media
+                subtitle: date ? new Date(date).toLocaleDateString() : 'No date set'
             }
         }
     }
-} 
+}) 

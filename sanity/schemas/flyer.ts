@@ -1,42 +1,41 @@
-import { Rule } from '@sanity/types'
+import { defineType, defineField } from 'sanity'
 
-export default {
+export default defineType({
     name: 'flyer',
     title: 'Flyer',
     type: 'document',
     fields: [
-        {
+        defineField({
             name: 'title',
-            title: 'Flyer Title',
+            title: 'Title',
             type: 'string',
-            validation: (Rule: Rule) => Rule.required()
-        },
-        {
-            name: 'images',
-            title: 'Flyer Images',
-            type: 'array',
-            of: [
-                {
-                    type: 'image',
-                    options: {
-                        hotspot: true
-                    }
-                }
-            ],
-            validation: (Rule: Rule) => Rule.required().min(1)
-        },
-        {
-            name: 'isActive',
-            title: 'Active',
-            type: 'boolean',
-            initialValue: true,
-            description: 'Only active flyers will be displayed on the website'
-        }
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'image',
+            title: 'Flyer Image',
+            type: 'image',
+            options: {
+                hotspot: true
+            },
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'show',
+            title: 'Associated Show',
+            type: 'reference',
+            to: [{ type: 'show' }]
+        }),
+        defineField({
+            name: 'description',
+            title: 'Description',
+            type: 'text'
+        })
     ],
     preview: {
         select: {
             title: 'title',
-            media: 'images.0'
+            media: 'image'
         }
     }
-} 
+}) 

@@ -7,5 +7,5 @@ import contactPhoto from './contactPhoto'
 import aboutParagraph from './aboutParagraph'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-    types: [artist, show, pastArtist, flyer, contactPhoto, aboutParagraph],
+    types: [artist, show, pastArtist, flyer, contactPhoto, aboutParagraph]
 } 

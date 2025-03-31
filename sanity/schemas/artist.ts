@@ -1,19 +1,21 @@
-export default {
+import { defineType, defineField } from 'sanity'
+
+export default defineType({
     name: 'artist',
     title: 'Artist',
     type: 'document',
     fields: [
-        {
+        defineField({
             name: 'name',
             title: 'Artist Name',
             type: 'string',
-            validation: Rule => Rule.required()
-        },
-        {
+            validation: rule => rule.required()
+        }),
+        defineField({
             name: 'link',
             title: 'Artist Website',
             type: 'url'
-        },
+        }),
         {
             name: 'image',
             title: 'Artist Image',
@@ -34,4 +36,4 @@ export default {
             media: 'image'
         }
     }
-} 
+}) 

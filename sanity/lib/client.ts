@@ -6,5 +6,10 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
+  useCdn: false, // `false` if you want to ensure fresh data
+  perspective: 'published',
+  stega: {
+    enabled: false,
+    studioUrl: '/studio',
+  },
 })

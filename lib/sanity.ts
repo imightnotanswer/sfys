@@ -146,10 +146,10 @@ let flyersCacheTime: number = 0;
 export async function getFlyers() {
     try {
         const query = `
-            *[_type == "flyer" && isActive == true] {
+            *[_type == "flyer"] {
                 _id,
                 title,
-                "imageUrls": images[].asset->url
+                "imageUrls": [image.asset->url]
             }
         `;
         const flyers = await client.fetch(query);

@@ -1,47 +1,49 @@
-export default {
+import { defineType, defineField } from 'sanity'
+
+export default defineType({
     name: 'aboutParagraph',
-    title: 'About Page Paragraphs',
+    title: 'About Paragraph',
     type: 'document',
     fields: [
-        {
-            name: 'firstParagraph',
-            title: 'First Paragraph',
+        defineField({
+            name: 'title',
+            title: 'Title',
+            type: 'string',
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'content',
+            title: 'Content',
             type: 'text',
-            description: 'The first paragraph with left fade-in animation',
-            validation: (Rule: any) => Rule.required()
-        },
-        {
-            name: 'secondParagraph',
-            title: 'Second Paragraph',
-            type: 'text',
-            description: 'The second paragraph with right fade-in animation',
-            validation: (Rule: any) => Rule.required()
-        },
-        {
-            name: 'thirdParagraph',
-            title: 'Third Paragraph',
-            type: 'text',
-            description: 'The third paragraph with bottom fade-in animation',
-            validation: (Rule: any) => Rule.required()
-        },
-        {
-            name: 'isActive',
-            title: 'Is Active',
-            type: 'boolean',
-            description: 'Only one set of paragraphs should be active at a time',
-            initialValue: false
-        }
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'order',
+            title: 'Display Order',
+            type: 'number',
+            validation: rule => rule.required().min(0)
+        }),
+        defineField({
+            name: 'image',
+            title: 'Image',
+            type: 'image',
+            options: {
+                hotspot: true
+            }
+        })
     ],
     preview: {
         select: {
-            title: 'firstParagraph',
-            subtitle: 'isActive'
+            title: 'title',
+            subtitle: 'order',
+            media: 'image'
         },
-        prepare({ title, subtitle }: { title: string; subtitle: boolean }) {
+        prepare(selection) {
+            const { title, subtitle } = selection
             return {
-                title: title.substring(0, 50) + '...',
-                subtitle: subtitle ? 'Active' : 'Inactive'
+                title: title,
+                subtitle: `Order: ${subtitle}`
             }
         }
     }
-} 
+}) 

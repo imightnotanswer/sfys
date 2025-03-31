@@ -29,15 +29,15 @@ export default async function Home() {
         <main className="min-h-screen">
             <section className="bg-[#ece8d9] text-[#231f20] py-12">
                 <div className="editorial-layout">
-                    <div className="col-span-12">
+                    <div className="col-span-12 flex flex-col gap-8">
                         {flyers.length > 0 && <FlyerCarousel flyers={flyers} />}
-                        <div className="max-w-2xl mx-auto mb-4">
+                        <div className="max-w-2xl mx-auto w-full">
                             <AnimatedTitle />
-                        </div>
-                        <div className="max-w-2xl mx-auto -space-y-2">
-                            {shows.map((show: Show) => (
-                                <ShowCard key={show._id} show={show} />
-                            ))}
+                            <div className="-space-y-2">
+                                {shows.map((show: Show) => (
+                                    <ShowCard key={show._id} show={show} />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

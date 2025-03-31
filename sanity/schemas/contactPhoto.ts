@@ -1,26 +1,35 @@
-export default {
+import { defineType, defineField } from 'sanity'
+
+export default defineType({
     name: 'contactPhoto',
-    title: 'Contact Page Photos',
+    title: 'Contact Photo',
     type: 'document',
     fields: [
-        {
+        defineField({
             name: 'title',
             title: 'Title',
             type: 'string',
-            description: 'A descriptive title for this photo set'
-        },
-        {
-            name: 'images',
-            title: 'Images',
-            type: 'array',
-            of: [{ type: 'image' }],
-            description: 'Upload one or more images. If multiple images are uploaded, they will be displayed in a carousel.'
-        }
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'image',
+            title: 'Photo',
+            type: 'image',
+            options: {
+                hotspot: true
+            },
+            validation: rule => rule.required()
+        }),
+        defineField({
+            name: 'description',
+            title: 'Description',
+            type: 'text'
+        })
     ],
     preview: {
         select: {
             title: 'title',
-            media: 'images.0'
+            media: 'image'
         }
     }
-} 
+}) 

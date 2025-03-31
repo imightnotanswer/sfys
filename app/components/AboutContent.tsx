@@ -22,7 +22,7 @@ export function AboutContent({ paragraphs }: AboutContentProps) {
                 <div className="col-span-12 md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
                     <div className="max-w-2xl mb-16">
                         <h2 className="text-4xl font-['TayManna'] tracking-wide text-center">
-                            ABOUT
+
                         </h2>
                     </div>
                     <div className="space-y-16 relative">

@@ -1,3 +1,4 @@
+// Force Vercel redeploy
 import type { Metadata } from 'next'
 import { Space_Mono } from 'next/font/google'
 import localFont from 'next/font/local'

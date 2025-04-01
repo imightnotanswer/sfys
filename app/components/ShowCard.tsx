@@ -192,7 +192,7 @@ export function ShowCard({ show }: { show: Show }) {
             </div>
 
             <div
-                className={`overflow-hidden transition-all duration-500 ease-in-out max-w-2xl mx-auto w-full`}
+                className={`overflow-hidden transition-all duration-500 ease-in-out w-full max-w-2xl mx-auto px-6`}
                 style={{ height: isExpanded ? detailsRef.current?.scrollHeight + 'px' : '0px' }}
             >
                 <div
@@ -200,7 +200,7 @@ export function ShowCard({ show }: { show: Show }) {
                     className={`transform transition-all duration-500 ease-in-out ${isExpanded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
                 >
                     <div className="text-center">
-                        <p className="text-[min(3vw,16px)] leading-[1.75] whitespace-pre-wrap">{show.description}</p>
+                        <p className="text-[min(3vw,16px)] leading-[1.75] whitespace-pre-wrap font-[var(--font-dumpling)]">{show.description}</p>
                         {currentArtist?.website && (
                             <a
                                 href={currentArtist.website}

@@ -11,7 +11,7 @@ interface ShakeTextProps extends HTMLMotionProps<any> {
 export function ShakeText({
     children,
     as = 'h2',
-    className = "text-xl uppercase tracking-wide mb-2",
+    className = "uppercase tracking-wide mb-2",
     ...props
 }: ShakeTextProps) {
     const [isHovered, setIsHovered] = useState(false)

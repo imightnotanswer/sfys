@@ -93,7 +93,17 @@ export async function getShows() {
                 show.imageUrls ? [show.imageUrls] : []
         }))
 
-        return validShows;
+        // Filter out past shows
+        const now = new Date()
+        now.setHours(0, 0, 0, 0) // Set to start of today
+
+        const futureShows = validShows.filter((show: Show) => {
+            const showDate = new Date(show.date)
+            showDate.setHours(0, 0, 0, 0) // Set to start of show day
+            return showDate >= now
+        })
+
+        return futureShows;
     } catch (error) {
         console.error('Error fetching shows:', error)
         return [];

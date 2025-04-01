@@ -50,6 +50,7 @@ export function ShowCard({ show }: { show: Show }) {
 
     const formattedDate = useMemo(() => {
         return new Date(show.date).toLocaleDateString('en-US', {
+            weekday: 'short',
             month: 'numeric',
             day: 'numeric'
         })
@@ -163,7 +164,7 @@ export function ShowCard({ show }: { show: Show }) {
             <div className="p-6 pt-0 pb-4">
                 <div className="flex flex-col items-center">
                     <div className="flex items-center justify-center gap-2 w-full">
-                        <h3 className="font-[RideSlow] text-[min(5vw,3rem)] whitespace-nowrap">{artistLineup}</h3>
+                        <h3 className="font-[var(--font-dumpling)] text-[min(4vw,2.5rem)] whitespace-nowrap">{artistLineup}</h3>
                         <button
                             onClick={handleExpand}
                             className="flex items-center hover:text-[#e43720] transition-colors duration-200"
@@ -184,7 +185,7 @@ export function ShowCard({ show }: { show: Show }) {
                             </svg>
                         </button>
                     </div>
-                    <p className="font-[RideSlow] text-[min(4vw,2.25rem)] mb-0">
+                    <p className="font-[var(--font-dumpling)] text-[min(2.5vw,1.25rem)] mb-0">
                         {formattedDate} - {formattedTime}
                     </p>
                 </div>

@@ -34,9 +34,15 @@ export default async function Home() {
                         <div className="max-w-2xl mx-auto w-full">
                             <AnimatedTitle />
                             <div className="-space-y-2">
-                                {shows.map((show: Show) => (
-                                    <ShowCard key={show._id} show={show} />
-                                ))}
+                                {shows.length > 0 ? (
+                                    shows.map((show: Show) => (
+                                        <ShowCard key={show._id} show={show} />
+                                    ))
+                                ) : (
+                                    <p className="text-center font-[var(--font-dumpling)] text-[min(3vw,1.5rem)] mt-8">
+                                        No upcoming shows at the moment. Check back soon!
+                                    </p>
+                                )}
                             </div>
                         </div>
                     </div>

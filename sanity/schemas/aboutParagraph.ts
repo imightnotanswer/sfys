@@ -1,49 +1,43 @@
-import { defineType, defineField } from 'sanity'
-
-export default defineType({
+export default {
     name: 'aboutParagraph',
-    title: 'About Paragraph',
+    title: 'About Page Content',
     type: 'document',
     fields: [
-        defineField({
-            name: 'title',
-            title: 'Title',
-            type: 'string',
-            validation: rule => rule.required()
-        }),
-        defineField({
-            name: 'content',
-            title: 'Content',
+        {
+            name: 'firstParagraph',
+            title: 'First Paragraph',
             type: 'text',
-            validation: rule => rule.required()
-        }),
-        defineField({
-            name: 'order',
-            title: 'Display Order',
-            type: 'number',
-            validation: rule => rule.required().min(0)
-        }),
-        defineField({
-            name: 'image',
-            title: 'Image',
-            type: 'image',
-            options: {
-                hotspot: true
-            }
-        })
+            validation: (Rule: any) => Rule.required(),
+        },
+        {
+            name: 'secondParagraph',
+            title: 'Second Paragraph',
+            type: 'text',
+            validation: (Rule: any) => Rule.required(),
+        },
+        {
+            name: 'thirdParagraph',
+            title: 'Third Paragraph',
+            type: 'text',
+            validation: (Rule: any) => Rule.required(),
+        },
+        {
+            name: 'isActive',
+            title: 'Is Active',
+            type: 'boolean',
+            description: 'Whether this set of paragraphs should be shown on the website',
+            initialValue: false
+        },
     ],
     preview: {
         select: {
-            title: 'title',
-            subtitle: 'order',
-            media: 'image'
+            active: 'isActive',
         },
-        prepare(selection) {
-            const { title, subtitle } = selection
+        prepare(selection: { active: boolean }) {
             return {
-                title: title,
-                subtitle: `Order: ${subtitle}`
+                title: 'About Page Content',
+                subtitle: selection.active ? 'Active' : 'Inactive'
             }
         }
     }
-}) 
+} 

@@ -1,12 +1,7 @@
 'use client'
 
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-
-interface SupportingArtist {
-    name: string
-    website?: string
-}
 
 interface Show {
     _id: string
@@ -14,11 +9,7 @@ interface Show {
     date: string
     description: string
     imageUrls: string[]
-    mainArtist: {
-        name: string
-        website?: string
-    }
-    supportingArtists?: SupportingArtist[]
+    spotifyLink?: string
 }
 
 export function ShowCard({ show }: { show: Show }) {
@@ -37,54 +28,17 @@ export function ShowCard({ show }: { show: Show }) {
         return () => clearInterval(interval);
     }, [show.imageUrls.length]);
 
-    // Create an array of artists that matches the order of images
-    const artistsForImages = useMemo(() => {
-        const artists = [show.mainArtist, ...(show.supportingArtists || [])]
-        return show.imageUrls.map((_, index) => artists[index] || show.mainArtist)
-    }, [show])
+    const formattedDate = new Date(show.date).toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'numeric',
+        day: 'numeric'
+    })
 
-    // Get the current artist based on the current image index
-    const currentArtist = useMemo(() => {
-        return artistsForImages[currentImageIndex]
-    }, [artistsForImages, currentImageIndex])
-
-    const formattedDate = useMemo(() => {
-        return new Date(show.date).toLocaleDateString('en-US', {
-            weekday: 'short',
-            month: 'numeric',
-            day: 'numeric'
-        })
-    }, [show.date])
-
-    const formattedTime = useMemo(() => {
-        return new Date(show.date).toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        }).toUpperCase()
-    }, [show.date])
-
-    const artistLineup = useMemo(() => {
-        if (!show?.title) {
-            console.error('Show is missing title:', show)
-            return ['Artist TBA']
-        }
-
-        if (!show.supportingArtists?.length) {
-            return [show.title.toUpperCase()]
-        }
-
-        const supportingArtistNames = show.supportingArtists
-            .filter(artist => artist && artist.name)
-            .map(artist => artist.name.toUpperCase())
-
-        if (supportingArtistNames.length === 0) {
-            return [show.title.toUpperCase()]
-        }
-
-        const fullTitle = `${show.title.toUpperCase()} W/ ${supportingArtistNames.join(', ')}`
-        return fullTitle.split(' W/ ')
-    }, [show])
+    const formattedTime = new Date(show.date).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+    }).toUpperCase()
 
     const handleExpand = () => {
         setIsExpanded(!isExpanded)
@@ -98,45 +52,26 @@ export function ShowCard({ show }: { show: Show }) {
         setCurrentImageIndex((prev) => (prev - 1 + show.imageUrls.length) % show.imageUrls.length)
     }
 
-    console.log('Show data:', show)
+    // Split title if it contains "W/" for formatting
+    const titleParts = show.title.split(/\s+W\/\s+/i);
+    const hasSupporting = titleParts.length > 1;
 
     return (
         <div className="w-full">
             {show.imageUrls && show.imageUrls.length > 0 && (
                 <div className="relative aspect-[16/9] w-full max-w-2xl mx-auto mb-4">
                     <div className="absolute inset-0">
-                        {currentArtist?.website ? (
-                            <a
-                                href={currentArtist.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block w-full h-full"
-                            >
-                                <Image
-                                    src={show.imageUrls[currentImageIndex]}
-                                    alt={`${currentArtist.name} show image`}
-                                    fill
-                                    className="object-cover rounded-lg"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
-                                    quality={85}
-                                    loading="lazy"
-                                    placeholder="blur"
-                                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJyEkMj84OC8xOi8tQVBCNzhLPS0yRWFFS1NWW1xbMkFlbWRYbFBZW1f/2wBDARUXFx4aHR4eHVdRLSUtV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1f/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                                />
-                            </a>
-                        ) : (
-                            <Image
-                                src={show.imageUrls[currentImageIndex]}
-                                alt={`${currentArtist?.name || show.title} show image`}
-                                fill
-                                className="object-cover rounded-lg"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
-                                quality={85}
-                                loading="lazy"
-                                placeholder="blur"
-                                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJyEkMj84OC8xOi8tQVBCNzhLPS0yRWFFS1NWW1xbMkFlbWRYbFBZW1f/2wBDARUXFx4aHR4eHVdRLSUtV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1f/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                            />
-                        )}
+                        <Image
+                            src={show.imageUrls[currentImageIndex]}
+                            alt={`${show.title} show image`}
+                            fill
+                            className="object-cover rounded-lg"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
+                            quality={85}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJyEkMj84OC8xOi8tQVBCNzhLPS0yRWFFS1NWW1xbMkFlbWRYbFBZW1f/2wBDARUXFx4aHR4eHVdRLSUtV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1f/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                        />
                     </div>
                     {show.imageUrls.length > 1 && (
                         <>
@@ -167,12 +102,14 @@ export function ShowCard({ show }: { show: Show }) {
                     <div className="flex flex-col items-center relative w-full">
                         <div className="flex flex-col items-center">
                             <h3 className="font-[var(--font-dumpling)] text-[clamp(1.5rem,5vw,2.5rem)] text-center">
-                                {artistLineup[0]}
-                                {artistLineup.length > 1 && (
+                                {hasSupporting ? (
                                     <>
+                                        {titleParts[0].toUpperCase()}
                                         <br />
-                                        <span className="block">W/ {artistLineup[1]}</span>
+                                        <span className="block">W/ {titleParts[1].toUpperCase()}</span>
                                     </>
+                                ) : (
+                                    show.title.toUpperCase()
                                 )}
                             </h3>
                         </div>
@@ -212,15 +149,23 @@ export function ShowCard({ show }: { show: Show }) {
                 >
                     <div className="max-w-2xl mx-auto text-center">
                         <p className="font-[var(--font-dumpling)] text-[15px] leading-[24px] whitespace-pre-wrap">{show.description}</p>
-                        {currentArtist?.website && (
-                            <a
-                                href={currentArtist.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="font-[var(--font-dumpling)] inline-block mt-4 text-[10px] hover:text-[#e43720] transition-colors"
-                            >
-                            </a>
-                        )}
+
+                        <div className="flex flex-wrap justify-center gap-4 mt-4">
+                            {show.spotifyLink && (
+                                <a
+                                    href={show.spotifyLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 font-[var(--font-dumpling)] px-4 py-2 bg-[#1DB954] text-white rounded-full hover:bg-opacity-90 transition-colors"
+                                    aria-label="Listen on Spotify"
+                                >
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.48.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+                                    </svg>
+                                    <span>Listen on Spotify</span>
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

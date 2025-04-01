@@ -1,76 +1,63 @@
-import { defineType, defineField } from 'sanity'
-
-export default defineType({
+export default {
     name: 'show',
     title: 'Show',
     type: 'document',
     fields: [
-        defineField({
+        {
             name: 'title',
-            title: 'Show Title',
+            title: 'Title',
             type: 'string',
             description: 'The title of the show',
-            validation: rule => rule.required()
-        }),
-        defineField({
+            validation: (Rule: any) => Rule.required(),
+        },
+        {
             name: 'date',
-            title: 'Show Date',
+            title: 'Date',
             type: 'datetime',
             description: 'The date and time of the show',
-            validation: rule => rule.required()
-        }),
-        defineField({
-            name: 'location',
-            title: 'Show Location',
-            type: 'string',
-            description: 'The location of the show',
-            validation: rule => rule.required()
-        }),
-        defineField({
+            validation: (Rule: any) => Rule.required(),
+        },
+        {
             name: 'description',
-            title: 'Show Description',
+            title: 'Description',
             type: 'text',
-            description: 'A description of the show',
-            validation: rule => rule.required()
-        }),
-        defineField({
-            name: 'ticketLink',
-            title: 'Ticket Link',
+            description: 'A description of the show'
+        },
+        {
+            name: 'spotifyLink',
+            title: 'Spotify Link',
             type: 'url',
-            description: 'Link to purchase tickets'
-        }),
-        defineField({
-            name: 'isFeatured',
-            title: 'Featured Show',
-            type: 'boolean',
-            description: 'Whether this show should be featured on the homepage',
-            initialValue: false
-        }),
-        defineField({
-            name: 'artists',
-            title: 'Artists',
+            description: 'Link to Spotify for the artist or show'
+        },
+        {
+            name: 'images',
+            title: 'Show Images',
             type: 'array',
-            of: [{ type: 'reference', to: [{ type: 'artist' }] }],
-            description: 'The artists performing at this show'
-        }),
-        defineField({
-            name: 'flyer',
-            title: 'Show Flyer',
-            type: 'image',
-            description: 'The flyer image for the show'
-        })
+            of: [
+                {
+                    type: 'image',
+                    options: {
+                        hotspot: true,
+                    }
+                }
+            ],
+            description: 'Images for the show (first image will be the main image)',
+            validation: (Rule: any) => Rule.required().min(1)
+        }
     ],
     preview: {
         select: {
             title: 'title',
-            date: 'date'
+            date: 'date',
+            media: 'images.0'
         },
-        prepare(selection) {
-            const { title, date } = selection
+        prepare(selection: { title: string, date: string, media: any }) {
+            const { title, date, media } = selection
             return {
                 title: title,
-                subtitle: date ? new Date(date).toLocaleDateString() : 'No date set'
+                subtitle: date ? new Date(date).toLocaleDateString() : 'No date set',
+                media: media
             }
         }
     }
-}) 
+} 

@@ -4,7 +4,7 @@ import contactPhoto from './schemas/contactPhoto'
 import flyer from './schemas/flyer'
 import pastArtist from './schemas/pastArtist'
 import show from './schemas/show'
-import aboutParagraphs from './schemas/aboutParagraphs'
+import aboutParagraph from './schemas/aboutParagraph'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
     types: [
@@ -13,6 +13,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         flyer,
         pastArtist,
         show,
-        aboutParagraphs,
+        aboutParagraph,
     ],
 } 

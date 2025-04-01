@@ -14,11 +14,7 @@ interface Show {
     date: string
     description: string
     imageUrls: string[]
-    mainArtist: {
-        name: string
-        website?: string
-    }
-    supportingArtists?: { name: string; website?: string }[]
+    spotifyLink?: string
 }
 
 export default async function Home() {

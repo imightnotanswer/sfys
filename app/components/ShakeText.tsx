@@ -33,12 +33,16 @@ export function ShakeText({
             className={className}
             animate={isHovered ? "shake" : ""}
             variants={shakeAnimation}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
             onAnimationComplete={() => setIsHovered(false)}
             {...props}
         >
-            {children}
+            <span
+                className="inline-block"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                {children}
+            </span>
         </Component>
     )
 } 

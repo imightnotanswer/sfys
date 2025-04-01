@@ -6,15 +6,8 @@ interface Show {
     title: string;
     date: string;
     description: string;
+    spotifyLink?: string;
     imageUrls: string[];
-    mainArtist?: {
-        name: string;
-        website?: string;
-    };
-    supportingArtists?: Array<{
-        name: string;
-        website?: string;
-    }>;
 }
 
 interface PastArtist {
@@ -77,15 +70,8 @@ export async function getShows() {
                 title,
                 date,
                 description,
-                "imageUrls": coalesce(images[].asset->url, [images[0].asset->url]),
-                mainArtist->{
-                    name,
-                    "website": link
-                },
-                supportingArtists[]->{
-                    name,
-                    "website": link
-                }
+                spotifyLink,
+                "imageUrls": images[].asset->url
             }
         `
         const shows = await client.fetch(query)

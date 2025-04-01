@@ -211,7 +211,7 @@ export function ShowCard({ show }: { show: Show }) {
                     className={`space-y-6 px-6 pb-6 transform transition-all duration-500 ease-in-out ${isExpanded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
                 >
                     <div className="max-w-2xl mx-auto text-center">
-                        <p className="font-[var(--font-dumpling)] text-[15px] leading-[16px] whitespace-pre-wrap">{show.description}</p>
+                        <p className="font-[var(--font-dumpling)] text-[15px] leading-[24px] whitespace-pre-wrap">{show.description}</p>
                         {currentArtist?.website && (
                             <a
                                 href={currentArtist.website}

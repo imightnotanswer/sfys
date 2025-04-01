@@ -42,7 +42,7 @@ export function AboutCarousel({ images }: AboutCarouselProps) {
 
     return (
         <div className="relative w-full max-w-4xl mx-auto">
-            <div className="relative aspect-[16/9] w-full">
+            <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden">
                 <Image
                     src={imageUrl}
                     alt="About page carousel image"

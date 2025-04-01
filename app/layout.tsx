@@ -55,11 +55,6 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${spaceMono.variable} ${wingman.variable} ${gothamNarrow.variable} ${bartender.variable} ${dumpling.variable} font-sans antialiased bg-[#ece8d9] text-[#231f20]`}>
             <body className="min-h-screen flex flex-col">
-                <div className="bg-[#231f20] text-[#eceadf] flex items-center justify-center py-1 w-full">
-                    <p className="font-['Prestige Elite Std'] font-bold text-[14px] leading-[20px] italic max-w-3xl mx-auto px-4">
-                        BE IN THE KNOW ABOUT UPCOMING SHOWS
-                    </p>
-                </div>
                 <Header />
                 <main className="flex-grow">
                     {children}

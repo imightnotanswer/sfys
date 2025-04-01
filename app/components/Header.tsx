@@ -7,6 +7,13 @@ import Navigation from './Navigation'
 export default function Header() {
     return (
         <header className="w-full">
+            {/* Notice Banner */}
+            <div id="notice" className="py-1.5 px-5 bg-[#1c1518]">
+                <div className="text-[#eceadf] text-center italic text-[1em] leading-[1.9em] font-['prestige-elite']">
+                    Be in the know about upcoming shows.
+                </div>
+            </div>
+
             {/* Main header content */}
             <div className="py-4 pb-0 w-full overflow-x-hidden">
                 {/* Desktop and Tablet Layout */}
@@ -23,7 +30,7 @@ export default function Header() {
                         href="http://touristswelcome.com/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group"
+                        className="group pr-4"
                     >
                         <Image
                             src="/radio-logo.png"
@@ -41,13 +48,13 @@ export default function Header() {
                         href="http://touristswelcome.com/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group"
+                        className="group pt-2"
                     >
                         <Image
                             src="/radio-logo.png"
                             alt="TOURISTS Radio Logo"
-                            width={150}
-                            height={150}
+                            width={180}
+                            height={180}
                             className="object-contain transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
                         />
                     </a>

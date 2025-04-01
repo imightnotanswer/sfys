@@ -71,7 +71,7 @@ export default function Footer() {
                             href="https://www.facebook.com/touristswelcome"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:[&>svg]:text-[#e43720] transition-colors mt-[2px]"
+                            className="hover:[&>svg]:text-[#e43720] transition-colors mt-[-2px]"
                         >
                             <svg viewBox="0 0 9.309 17.916" width="8" height="16" fill="currentColor" className="text-[#eceadf] transition-colors">
                                 <path d="M8.781,9.744l0.412-3.185H6.039V4.525c0-0.921,0.258-1.552,1.579-1.552h1.69V0.126   C9.013,0.085,8.013,0,6.845,0C4.414,0,2.75,1.484,2.75,4.21v2.349H0v3.185h2.75v8.172h3.289V9.744H8.781z"></path>
@@ -163,14 +163,14 @@ export default function Footer() {
                             href="https://www.facebook.com/touristswelcome"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:[&>svg]:text-[#e43720] transition-colors mt-[2px]"
+                            className="hover:[&>svg]:text-[#e43720] transition-colors mt-[-2px]"
                         >
                             <svg viewBox="0 0 9.309 17.916" width="8" height="16" fill="currentColor" className="text-[#eceadf] transition-colors">
                                 <path d="M8.781,9.744l0.412-3.185H6.039V4.525c0-0.921,0.258-1.552,1.579-1.552h1.69V0.126   C9.013,0.085,8.013,0,6.845,0C4.414,0,2.75,1.484,2.75,4.21v2.349H0v3.185h2.75v8.172h3.289V9.744H8.781z"></path>
                             </svg>
                         </a>
                         <a
-                            href="https://www.instagram.com/tourists_welcome/"
+                            href="https://www.instagram.com/touristswelcome/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hover:[&>svg]:text-[#e43720] transition-colors mt-[2px]"

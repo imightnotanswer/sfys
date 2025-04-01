@@ -60,6 +60,10 @@ export function urlFor(source: any) {
     return builder.image(source);
 }
 
+export function urlForImage(source: any) {
+    return builder.image(source);
+}
+
 // Cache for shows data
 let showsCache: Show[] | null = null;
 let showsCacheTime: number = 0;
@@ -220,5 +224,25 @@ export async function getAboutParagraphs() {
     } catch (error) {
         console.error('Error fetching about paragraphs:', error);
         return null;
+    }
+}
+
+export async function getAboutCarouselImages() {
+    try {
+        const query = `*[_type == "aboutCarousel"][0] {
+            "images": images[] {
+                asset {
+                    _ref,
+                    _type
+                }
+            }
+        }`;
+
+        const result = await client.fetch(query);
+        console.log('About Carousel Images:', result); // Debug log
+        return result;
+    } catch (error) {
+        console.error('Error fetching about carousel images:', error);
+        return { images: [] };
     }
 } 

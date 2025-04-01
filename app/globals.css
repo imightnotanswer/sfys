@@ -48,6 +48,14 @@
     src: url('/fonts/TayManna.otf') format('opentype');
 }
 
+@font-face {
+    font-family: 'TAYBartender';
+    src: url('/fonts/TAYBartender.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 @layer base {
     html {
         @apply bg-[#ece8d9] text-[#231f20];

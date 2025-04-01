@@ -67,11 +67,11 @@ export function ShowCard({ show }: { show: Show }) {
     const artistLineup = useMemo(() => {
         if (!show?.title) {
             console.error('Show is missing title:', show)
-            return 'Artist TBA'
+            return ['Artist TBA']
         }
 
         if (!show.supportingArtists?.length) {
-            return show.title.toUpperCase()
+            return [show.title.toUpperCase()]
         }
 
         const supportingArtistNames = show.supportingArtists
@@ -79,10 +79,11 @@ export function ShowCard({ show }: { show: Show }) {
             .map(artist => artist.name.toUpperCase())
 
         if (supportingArtistNames.length === 0) {
-            return show.title.toUpperCase()
+            return [show.title.toUpperCase()]
         }
 
-        return `${show.title.toUpperCase()} W/ ${supportingArtistNames.join(', ')}`
+        const fullTitle = `${show.title.toUpperCase()} W/ ${supportingArtistNames.join(', ')}`
+        return fullTitle.split(' W/ ')
     }, [show])
 
     const handleExpand = () => {
@@ -163,15 +164,25 @@ export function ShowCard({ show }: { show: Show }) {
             )}
             <div className="p-6 pt-0 pb-4">
                 <div className="flex flex-col items-center">
-                    <div className="flex items-center justify-center gap-2 w-full">
-                        <h3 className="font-[var(--font-dumpling)] text-[min(4vw,2.5rem)] whitespace-nowrap">{artistLineup}</h3>
+                    <div className="flex flex-col items-center relative w-full">
+                        <div className="flex flex-col items-center">
+                            <h3 className="font-[var(--font-dumpling)] text-[clamp(1.5rem,5vw,2.5rem)] text-center">
+                                {artistLineup[0]}
+                                {artistLineup.length > 1 && (
+                                    <>
+                                        <br />
+                                        <span className="block">W/ {artistLineup[1]}</span>
+                                    </>
+                                )}
+                            </h3>
+                        </div>
                         <button
                             onClick={handleExpand}
-                            className="flex items-center hover:text-[#e43720] transition-colors duration-200"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-[#e43720] transition-colors duration-200"
                             aria-label={isExpanded ? 'Show less details' : 'Show more details'}
                         >
                             <svg
-                                className={`w-[min(2.5vw,1.5rem)] h-[min(2.5vw,1.5rem)] transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                                className={`w-[min(3vw,1.5rem)] h-[min(3vw,1.5rem)] transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -185,28 +196,28 @@ export function ShowCard({ show }: { show: Show }) {
                             </svg>
                         </button>
                     </div>
-                    <p className="font-[var(--font-dumpling)] text-[min(2.5vw,1.25rem)] mb-0">
+                    <p className="font-[var(--font-dumpling)] text-[clamp(1rem,3vw,1.5rem)] mb-0">
                         {formattedDate} - {formattedTime}
                     </p>
                 </div>
             </div>
 
             <div
-                className={`overflow-hidden transition-all duration-500 ease-in-out w-full max-w-2xl mx-auto px-6`}
+                className={`overflow-hidden transition-all duration-500 ease-in-out`}
                 style={{ height: isExpanded ? detailsRef.current?.scrollHeight + 'px' : '0px' }}
             >
                 <div
                     ref={detailsRef}
-                    className={`transform transition-all duration-500 ease-in-out ${isExpanded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                    className={`space-y-6 px-6 pb-6 transform transition-all duration-500 ease-in-out ${isExpanded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
                 >
-                    <div className="text-center">
-                        <p className="text-[min(3vw,16px)] leading-[1.75] whitespace-pre-wrap font-[var(--font-dumpling)]">{show.description}</p>
+                    <div className="max-w-2xl mx-auto text-center">
+                        <p className="font-[var(--font-dumpling)] text-[15px] leading-[16px] whitespace-pre-wrap">{show.description}</p>
                         {currentArtist?.website && (
                             <a
                                 href={currentArtist.website}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-block mt-4 text-[10px] hover:text-[#e43720] transition-colors"
+                                className="font-[var(--font-dumpling)] inline-block mt-4 text-[10px] hover:text-[#e43720] transition-colors"
                             >
                             </a>
                         )}

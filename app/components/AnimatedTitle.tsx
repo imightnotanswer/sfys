@@ -13,7 +13,7 @@ export function AnimatedTitle() {
             initial={{ opacity: 0, y: -50 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
             transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="text-[min(10vw,5rem)] font-[var(--font-bartender)] tracking-wide text-center mb-8"
+            className="text-[min(6vw,3rem)] font-['TAYBartender'] tracking-wide mt-8 text-center"
         >
             UPCOMING SHOWS
         </motion.h2>

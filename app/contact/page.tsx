@@ -21,7 +21,7 @@ export default async function Contact() {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                             <div className="space-y-8">
                                 <div>
-                                    <ShakeText className="font-[var(--font-dumpling)]">Let&apos;s Talk</ShakeText>
+                                    <ShakeText className="font-[var(--font-dumpling)] text-[min(8vw,4rem)]">Let&apos;s Talk</ShakeText>
                                     <p className="text-base leading-relaxed font-[var(--font-dumpling)]">
                                         If you are an artist interested in performing at TOURISTS, please email
                                     </p>

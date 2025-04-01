@@ -33,10 +33,10 @@ export default function Footer() {
                             >
                                 stay@touristswelcome.com
                             </a>
-                            {/* Links only show on top row at xl breakpoint or larger */}
+                            {/* Links only show on top row at 2xl breakpoint or larger */}
                             <a
                                 href="mailto:press@touristswelcome.com"
-                                className="hidden xl:inline hover:text-[#e43720] transition-colors whitespace-nowrap"
+                                className="hidden 2xl:inline hover:text-[#e43720] transition-colors whitespace-nowrap"
                             >
                                 PRESS
                             </a>
@@ -44,7 +44,7 @@ export default function Footer() {
                                 href="https://www.touristswelcome.com/page/faq"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hidden xl:inline hover:text-[#e43720] transition-colors whitespace-nowrap"
+                                className="hidden 2xl:inline hover:text-[#e43720] transition-colors whitespace-nowrap"
                             >
                                 FAQ
                             </a>
@@ -52,7 +52,7 @@ export default function Footer() {
                                 href="https://www.touristswelcome.com/page/jobs"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hidden xl:inline hover:text-[#e43720] transition-colors whitespace-nowrap"
+                                className="hidden 2xl:inline hover:text-[#e43720] transition-colors whitespace-nowrap"
                             >
                                 JOBS
                             </a>
@@ -60,7 +60,7 @@ export default function Footer() {
                                 href="https://www.touristswelcome.com/page/privacy-policy"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hidden xl:inline hover:text-[#e43720] transition-colors whitespace-nowrap"
+                                className="hidden 2xl:inline hover:text-[#e43720] transition-colors whitespace-nowrap"
                             >
                                 PRIVACY POLICY
                             </a>
@@ -93,8 +93,8 @@ export default function Footer() {
                             </div>
                         </div>
                     </div>
-                    {/* Links on bottom row only at lg-xl breakpoint where they would overlap the mailing list */}
-                    <div className="mt-2 flex gap-6 lg:flex xl:hidden">
+                    {/* Links on bottom row whenever not 2xl (meaning at sizes lg through xl) */}
+                    <div className="mt-2 flex gap-6 lg:flex 2xl:hidden">
                         <a
                             href="mailto:press@touristswelcome.com"
                             className="hover:text-[#e43720] transition-colors"

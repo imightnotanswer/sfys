@@ -10,7 +10,7 @@ interface SidePopoutProps {
 
 export default function SidePopout({
     playlistId,
-    title = "TOURISTS ALL DAY",
+    title = "TOURISTS RADIO",
     position = 'left',
 }: SidePopoutProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -83,14 +83,14 @@ export default function SidePopout({
 
                     {/* Title section */}
                     <div className="flex-grow flex items-center justify-center h-10 px-4">
-                        <h2 className="text-center text-sm font-['Gotham Narrow'] uppercase tracking-wider font-bold">
+                        <h2 className="text-center text-lg font-dumpling uppercase tracking-wide font-normal">
                             {title}
                         </h2>
                     </div>
                 </div>
 
                 {/* Main content - Spotify player with proper sizing */}
-                <div style={{ height: '380px' }}>
+                <div style={{ height: '480px' }}>
                     <iframe
                         src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
                         width="100%"

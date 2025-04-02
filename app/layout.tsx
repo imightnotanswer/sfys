@@ -56,10 +56,10 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${spaceMono.variable} ${wingman.variable} ${gothamNarrow.variable} ${bartender.variable} ${dumpling.variable} font-sans antialiased bg-[#ece8d9] text-[#231f20]`}>
             <body className="min-h-screen flex flex-col">
-                {/* Spotify Player Popout with TOURISTS ALL DAY playlist */}
+                {/* Spotify Player Popout with TOURISTS RADIO playlist */}
                 <SidePopout
                     playlistId="4l1KrbFrjYyIFjxFbB8KDH"
-                    title="TOURISTS ALL DAY"
+                    title="TOURISTS RADIO"
                     position="left"
                 />
 

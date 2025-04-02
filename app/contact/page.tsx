@@ -19,7 +19,7 @@ export default async function Contact() {
                 <div className="editorial-layout">
                     <div className="col-span-12 md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                            <div className="space-y-8">
+                            <div className="space-y-8 text-center lg:text-left">
                                 <div>
                                     <ShakeText className="font-[var(--font-dumpling)] text-[min(8vw,4rem)]">Let&apos;s Talk</ShakeText>
                                     <p className="text-base leading-relaxed font-[var(--font-dumpling)]">

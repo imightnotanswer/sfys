@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface SidePopoutProps {
     playlistId: string;
@@ -15,25 +15,46 @@ export default function SidePopout({
 }: SidePopoutProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(true);
+    const initializedRef = useRef(false);
 
-    // Initialize based on screen size and handle resize
+    // Run once on component mount to set initial state
     useEffect(() => {
-        const checkScreenSize = () => {
-            const mobile = window.innerWidth < 768; // Standard md breakpoint
-            setIsMobile(mobile);
-            // Set initial state based on screen size (open on desktop, closed on mobile)
-            setIsOpen(!mobile);
+        if (initializedRef.current) return;
+        initializedRef.current = true;
+
+        // Check if mobile
+        const mobile = window.innerWidth < 768;
+        setIsMobile(mobile);
+
+        // Check if user has manually closed it in this session
+        const manuallyClosed = localStorage.getItem('touristsRadioManuallyClosed');
+
+        // Set initial state based on device and previous actions
+        // Open on desktop by default, unless previously closed
+        setIsOpen(!mobile && !manuallyClosed);
+
+        // Set up resize handler
+        const handleResize = () => {
+            const isMobileView = window.innerWidth < 768;
+            setIsMobile(isMobileView);
+            // Note: We don't automatically reopen on resize
         };
 
-        // Check on initial load
-        checkScreenSize();
-
-        // Listen for window resize events
-        window.addEventListener('resize', checkScreenSize);
-
-        // Cleanup
-        return () => window.removeEventListener('resize', checkScreenSize);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Handle close with tracking in localStorage
+    const handleClose = () => {
+        setIsOpen(false);
+        localStorage.setItem('touristsRadioManuallyClosed', 'true');
+    };
+
+    // Clear the closed state when manually reopened
+    const handleOpen = () => {
+        setIsOpen(true);
+        localStorage.removeItem('touristsRadioManuallyClosed');
+    };
 
     // Close when clicking outside
     useEffect(() => {
@@ -43,7 +64,7 @@ export default function SidePopout({
 
             if (popout && !popout.contains(e.target as Node) &&
                 toggleButton && !toggleButton.contains(e.target as Node)) {
-                setIsOpen(false);
+                handleClose();
             }
         };
 
@@ -74,7 +95,7 @@ export default function SidePopout({
                 {/* Header row with toggle button and title - entire header clickable */}
                 <div
                     className="flex border-b border-[#121212] bg-[#eceadf] cursor-pointer"
-                    onClick={() => setIsOpen(false)}
+                    onClick={handleClose}
                 >
                     {/* Toggle button that's part of the header */}
                     <div className="flex items-center justify-center w-10 h-10 border-r border-[#231f20] text-[#231f20] hover:bg-[#e43720] hover:text-[#eceadf] transition-colors">
@@ -108,7 +129,8 @@ export default function SidePopout({
                     className={`${position === 'left' ? 'left-0' : 'right-0'} absolute transition-all duration-500 ease-in-out ${isOpen ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
                 >
                     <button
-                        onClick={() => setIsOpen(true)}
+                        id="popout-toggle"
+                        onClick={handleOpen}
                         className="flex items-center justify-center w-10 h-10 bg-[#eceadf] border border-[#231f20] text-[#231f20] hover:bg-[#e43720] hover:text-[#eceadf] transition-colors"
                         aria-label="Open Spotify Player"
                     >

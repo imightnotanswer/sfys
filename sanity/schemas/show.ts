@@ -24,10 +24,22 @@ export default {
             description: 'A description of the show'
         },
         {
+            name: 'secondDescription',
+            title: 'Second Description',
+            type: 'text',
+            description: 'An optional secondary description for the show'
+        },
+        {
             name: 'spotifyLink',
             title: 'Spotify Link',
             type: 'url',
             description: 'Link to Spotify for the artist or show'
+        },
+        {
+            name: 'secondSpotifyLink',
+            title: 'Second Spotify Link',
+            type: 'url',
+            description: 'Optional second link to Spotify for another artist or related show'
         },
         {
             name: 'images',

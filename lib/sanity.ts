@@ -6,7 +6,9 @@ interface Show {
     title: string;
     date: string;
     description: string;
+    secondDescription?: string;
     spotifyLink?: string;
+    secondSpotifyLink?: string;
     imageUrls: string[];
 }
 
@@ -70,7 +72,9 @@ export async function getShows() {
                 title,
                 date,
                 description,
+                secondDescription,
                 spotifyLink,
+                secondSpotifyLink,
                 "imageUrls": images[].asset->url
             }
         `

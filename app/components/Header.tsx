@@ -53,13 +53,13 @@ export default function Header() {
                         <Image
                             src="/radio-logo.png"
                             alt="TOURISTS Radio Logo"
-                            width={180}
-                            height={180}
+                            width={220}
+                            height={220}
                             className="object-contain transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
                         />
                     </a>
                     <Link href="/" className="block text-center -mt-4">
-                        <h1 className="text-[clamp(36px,8vw,60px)] leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors">
+                        <h1 className="text-[clamp(42px,10vw,70px)] leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>

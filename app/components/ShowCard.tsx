@@ -31,10 +31,10 @@ export function ShowCard({ show }: { show: Show }) {
     }, [show.imageUrls.length]);
 
     const formattedDate = new Date(show.date).toLocaleDateString('en-US', {
-        weekday: 'short',
+        weekday: 'long',
         month: 'numeric',
         day: 'numeric'
-    })
+    }).replace(',', '').replace('.', '')
 
     const formattedTime = new Date(show.date).toLocaleTimeString('en-US', {
         hour: 'numeric',
@@ -135,9 +135,9 @@ export function ShowCard({ show }: { show: Show }) {
                             </svg>
                         </button>
                     </div>
-                    <p className="font-[var(--font-dumpling)] text-[clamp(1rem,3vw,1.5rem)] mb-0">
+                    <h3 className="font-[var(--font-dumpling)] text-[clamp(1rem,3vw,1.5rem)] text-center mb-0">
                         {formattedDate} - {formattedTime}
-                    </p>
+                    </h3>
                 </div>
             </div>
 

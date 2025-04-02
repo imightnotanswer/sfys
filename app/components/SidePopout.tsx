@@ -56,11 +56,20 @@ export default function SidePopout({
             {/* Popout content */}
             <div
                 id="side-popout"
-                className={`absolute top-0 transform transition-transform duration-300 ${position === 'left'
-                    ? `left-0 ${isOpen ? 'translate-x-0' : '-translate-x-full opacity-0 pointer-events-none'}`
-                    : `right-0 ${isOpen ? 'translate-x-0' : 'translate-x-full opacity-0 pointer-events-none'}`
+                className={`absolute top-0 transform transition-all duration-500 ease-in-out ${position === 'left'
+                        ? isOpen
+                            ? 'translate-x-0 opacity-100 scale-100'
+                            : '-translate-x-full opacity-0 scale-95 pointer-events-none'
+                        : isOpen
+                            ? 'translate-x-0 opacity-100 scale-100'
+                            : 'translate-x-full opacity-0 scale-95 pointer-events-none'
                     }`}
-                style={{ width: '300px', background: '#121212', border: '1px solid #121212' }}
+                style={{
+                    width: '300px',
+                    background: '#121212',
+                    border: '1px solid #121212',
+                    transformOrigin: position === 'left' ? 'left center' : 'right center'
+                }}
             >
                 {/* Header row with toggle button and title - entire header clickable */}
                 <div
@@ -95,7 +104,9 @@ export default function SidePopout({
 
             {/* Only show standalone toggle when popout is closed */}
             {!isOpen && (
-                <div className={`${position === 'left' ? 'left-0' : 'right-0'} absolute`}>
+                <div
+                    className={`${position === 'left' ? 'left-0' : 'right-0'} absolute transition-all duration-500 ease-in-out ${isOpen ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
+                >
                     <button
                         onClick={() => setIsOpen(true)}
                         className="flex items-center justify-center w-10 h-10 bg-[#eceadf] border border-[#231f20] text-[#231f20] hover:bg-[#e43720] hover:text-[#eceadf] transition-colors"

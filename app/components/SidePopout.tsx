@@ -73,7 +73,7 @@ export default function SidePopout({
     }, []);
 
     return (
-        <div className="fixed top-1/3 z-50 transform -translate-y-1/2">
+        <div className="fixed top-[40%] z-50 transform -translate-y-1/2">
             {/* Popout content */}
             <div
                 id="side-popout"

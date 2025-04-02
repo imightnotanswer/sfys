@@ -57,15 +57,15 @@ export default function SidePopout({
             <div
                 id="side-popout"
                 className={`absolute top-0 transform transition-all duration-500 ease-in-out ${position === 'left'
-                        ? isOpen
-                            ? 'translate-x-0 opacity-100 scale-100'
-                            : '-translate-x-full opacity-0 scale-95 pointer-events-none'
-                        : isOpen
-                            ? 'translate-x-0 opacity-100 scale-100'
-                            : 'translate-x-full opacity-0 scale-95 pointer-events-none'
+                    ? isOpen
+                        ? 'translate-x-0 opacity-100 scale-100'
+                        : '-translate-x-full opacity-0 scale-95 pointer-events-none'
+                    : isOpen
+                        ? 'translate-x-0 opacity-100 scale-100'
+                        : 'translate-x-full opacity-0 scale-95 pointer-events-none'
                     }`}
                 style={{
-                    width: '300px',
+                    width: '380px',
                     background: '#121212',
                     border: '1px solid #121212',
                     transformOrigin: position === 'left' ? 'left center' : 'right center'
@@ -94,7 +94,7 @@ export default function SidePopout({
                     <iframe
                         src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
                         width="100%"
-                        height="380"
+                        height="100%"
                         style={{ border: 0 }}
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                         loading="lazy"

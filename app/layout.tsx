@@ -6,6 +6,7 @@ import localFont from 'next/font/local'
 import './globals.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import SidePopout from './components/SidePopout'
 
 const spaceMono = Space_Mono({
     weight: ['400', '700'],
@@ -55,6 +56,13 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${spaceMono.variable} ${wingman.variable} ${gothamNarrow.variable} ${bartender.variable} ${dumpling.variable} font-sans antialiased bg-[#ece8d9] text-[#231f20]`}>
             <body className="min-h-screen flex flex-col">
+                {/* Spotify Player Popout with TOURISTS ALL DAY playlist */}
+                <SidePopout
+                    playlistId="4l1KrbFrjYyIFjxFbB8KDH"
+                    title="TOURISTS ALL DAY"
+                    position="left"
+                />
+
                 <Header />
                 <main className="flex-grow">
                     {children}

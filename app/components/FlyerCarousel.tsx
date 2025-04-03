@@ -135,7 +135,7 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         <div className="relative w-full max-w-[600px] mx-auto">
             <div className="flex flex-col">
                 {currentFlyer?.title && (
-                    <h1 className="text-[min(8vw,4rem)] font-[var(--font-benditos)] tracking-wide text-center">
+                    <h1 className="text-[clamp(2.5rem,8vw,4rem)] font-[var(--font-benditos)] tracking-wide text-center">
                         {currentFlyer.title}
                     </h1>
                 )}

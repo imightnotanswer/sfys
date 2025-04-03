@@ -138,7 +138,7 @@ export function ShowCard({ show }: { show: Show }) {
                 <div className="flex flex-col items-center">
                     <div className="flex flex-col items-center relative w-full">
                         <div className="flex flex-col items-center">
-                            <h3 className="font-[var(--font-dumpling)] text-[clamp(1.5rem,5vw,2.5rem)] text-center">
+                            <h3 className="font-[var(--font-dumpling)] text-[clamp(2rem,5vw,2.5rem)] text-center">
                                 {hasSupporting ? (
                                     <>
                                         {titleParts[0].toUpperCase()}
@@ -170,7 +170,7 @@ export function ShowCard({ show }: { show: Show }) {
                             </svg>
                         </button>
                     </div>
-                    <h3 className="font-[var(--font-dumpling)] text-[clamp(1rem,3vw,1.5rem)] text-center mb-0">
+                    <h3 className="font-[var(--font-dumpling)] text-[clamp(1.25rem,3vw,1.5rem)] text-center mb-0">
                         {formattedDate} - {formattedTime}
                     </h3>
                 </div>
@@ -186,7 +186,7 @@ export function ShowCard({ show }: { show: Show }) {
                 >
                     <div className="max-w-2xl mx-auto text-center">
                         {/* Main Description */}
-                        <p className="font-[var(--font-dumpling)] text-[15px] leading-[24px] whitespace-pre-wrap">{show.description}</p>
+                        <p className="font-[var(--font-dumpling)] text-[15px] leading-[24px] whitespace-pre-wrap font-bold">{show.description}</p>
 
                         {/* Primary Spotify Link */}
                         {show.spotifyLink && (
@@ -208,7 +208,7 @@ export function ShowCard({ show }: { show: Show }) {
 
                         {/* Second Description if available */}
                         {show.secondDescription && (
-                            <p className="font-[var(--font-dumpling)] text-[15px] leading-[24px] whitespace-pre-wrap mt-6">{show.secondDescription}</p>
+                            <p className="font-[var(--font-dumpling)] text-[15px] leading-[24px] whitespace-pre-wrap mt-6 font-bold">{show.secondDescription}</p>
                         )}
 
                         {/* Second Spotify Link if available */}

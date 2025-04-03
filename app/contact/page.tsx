@@ -22,7 +22,7 @@ export default async function Contact() {
                             <div className="space-y-8 text-center lg:text-left">
                                 <div>
                                     <ShakeText className="font-[var(--font-dumpling)] text-[min(8vw,4rem)]">Let&apos;s Talk</ShakeText>
-                                    <p className="text-base leading-relaxed font-[var(--font-dumpling)]">
+                                    <p className="text-base leading-relaxed font-[var(--font-dumpling)] font-bold">
                                         If you are an artist interested in performing at TOURISTS, please email{' '}
                                         <a href="mailto:eric@touristswelcome.com" className="hover:text-[#e43720] transition-colors">
                                             eric@touristswelcome.com

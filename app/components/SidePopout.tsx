@@ -95,7 +95,7 @@ export default function SidePopout({
                 </div>
 
                 {/* Main content - Spotify player with proper sizing */}
-                <div style={{ height: '83px' }}>
+                <div style={{ height: '80px' }}>
                     <iframe
                         src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
                         width="100%"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 
 interface ContactPhoto {
@@ -15,36 +15,37 @@ interface ContactPhotoCarouselProps {
 }
 
 export function ContactPhotoCarousel({ photos, defaultImageUrl }: ContactPhotoCarouselProps) {
-    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
-    const [currentImageIndex, setCurrentImageIndex] = useState(0)
-    const [isTransitioning, setIsTransitioning] = useState(false)
+    // Create a randomized array of all images
+    const allImages = useMemo(() => {
+        const images: { url: string; title: string }[] = []
+        photos.forEach(photo => {
+            photo.imageUrls.forEach(url => {
+                images.push({ url, title: photo.title })
+            })
+        })
+        // Fisher-Yates shuffle algorithm
+        for (let i = images.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [images[i], images[j]] = [images[j], images[i]]
+        }
+        return images
+    }, [photos])
 
-    // Auto-rotate images every 6 seconds only if there are multiple images
+    const [currentIndex, setCurrentIndex] = useState(0)
+
+    // Auto-rotate images every 5 seconds
     useEffect(() => {
-        if (!photos || photos.length === 0) return;
-
-        // Check if there are multiple images to cycle through
-        const totalImages = photos.reduce((sum, photo) => sum + photo.imageUrls.length, 0);
-        if (totalImages <= 1) return;
+        if (!allImages || allImages.length <= 1) return;
 
         const timer = setInterval(() => {
-            setIsTransitioning(true);
-            setTimeout(() => {
-                if (currentImageIndex === photos[currentPhotoIndex].imageUrls.length - 1) {
-                    setCurrentPhotoIndex((prev) => (prev + 1) % photos.length)
-                    setCurrentImageIndex(0)
-                } else {
-                    setCurrentImageIndex((prev) => prev + 1)
-                }
-                setIsTransitioning(false);
-            }, 300); // Match this with the CSS transition duration
-        }, 6000) // Changed from 4000 to 6000 for slower cycling
+            setCurrentIndex((current) => (current + 1) % allImages.length)
+        }, 5000)
 
         return () => clearInterval(timer)
-    }, [currentPhotoIndex, currentImageIndex, photos])
+    }, [allImages])
 
     // If no photos are available or photos array is empty, render the default image
-    if (!photos || photos.length === 0 || !photos[0]?.imageUrls?.length) {
+    if (!photos || photos.length === 0 || !allImages.length) {
         return (
             <div className="relative w-full">
                 <div className="relative aspect-[2/3] w-full max-w-md mx-auto">
@@ -53,7 +54,7 @@ export function ContactPhotoCarousel({ photos, defaultImageUrl }: ContactPhotoCa
                         alt="Contact page photo"
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover rounded-lg transition-opacity duration-300"
+                        className="object-cover rounded-lg"
                         priority
                     />
                 </div>
@@ -61,17 +62,29 @@ export function ContactPhotoCarousel({ photos, defaultImageUrl }: ContactPhotoCa
         )
     }
 
-    const currentPhoto = photos[currentPhotoIndex]
+    const nextIndex = (currentIndex + 1) % allImages.length
 
     return (
         <div className="relative w-full">
             <div className="relative aspect-[2/3] w-full max-w-md mx-auto">
+                {/* Current Image */}
                 <Image
-                    src={currentPhoto.imageUrls[currentImageIndex]}
-                    alt={currentPhoto.title}
+                    key={`current-${currentIndex}`}
+                    src={allImages[currentIndex].url}
+                    alt={allImages[currentIndex].title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className={`object-cover rounded-lg transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+                    className="object-cover rounded-lg transition-all duration-1000 ease-in-out"
+                    priority
+                />
+                {/* Next Image (preloaded) */}
+                <Image
+                    key={`next-${nextIndex}`}
+                    src={allImages[nextIndex].url}
+                    alt={allImages[nextIndex].title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover rounded-lg transition-all duration-1000 ease-in-out opacity-0"
                     priority
                 />
             </div>

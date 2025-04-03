@@ -15,19 +15,19 @@ export default function Navigation() {
                 <div className="flex flex-wrap gap-x-8 gap-y-1 -mt-6 justify-start">
                     <Link
                         href="/"
-                        className={`text-[clamp(24px,3vw,36px)] font-[RideSlow] tracking-wide transition-colors ${isActive('/') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                        className={`text-[clamp(24px,3vw,36px)] font-[RideSlow] tracking-[0.15em] transition-colors ${isActive('/') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
                     >
                         HOME
                     </Link>
                     <Link
                         href="/about"
-                        className={`text-[clamp(24px,3vw,36px)] font-[RideSlow] tracking-wide transition-colors ${isActive('/about') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                        className={`text-[clamp(24px,3vw,36px)] font-[RideSlow] tracking-[0.15em] transition-colors ${isActive('/about') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
                     >
                         ABOUT
                     </Link>
                     <Link
                         href="/contact"
-                        className={`text-[clamp(24px,3vw,36px)] font-[RideSlow] tracking-wide transition-colors ${isActive('/contact') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                        className={`text-[clamp(24px,3vw,36px)] font-[RideSlow] tracking-[0.15em] transition-colors ${isActive('/contact') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
                     >
                         CONTACT
                     </Link>
@@ -35,7 +35,7 @@ export default function Navigation() {
                         href="https://touristswelcome.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[clamp(24px,3vw,36px)] font-[RideSlow] tracking-wide hover:text-[#e43720] transition-colors"
+                        className="text-[clamp(24px,3vw,36px)] font-[RideSlow] tracking-[0.15em] hover:text-[#e43720] transition-colors"
                     >
                         HOTEL
                     </a>
@@ -46,19 +46,19 @@ export default function Navigation() {
             <div className="md:hidden flex flex-wrap justify-center gap-x-8 gap-y-1 mt-4">
                 <Link
                     href="/"
-                    className={`text-[clamp(20px,6vw,28px)] font-[RideSlow] tracking-wide transition-colors ${isActive('/') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                    className={`text-[clamp(20px,2.5vw,32px)] font-[RideSlow] tracking-[0.15em] transition-colors ${isActive('/') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
                 >
                     HOME
                 </Link>
                 <Link
                     href="/about"
-                    className={`text-[clamp(20px,6vw,28px)] font-[RideSlow] tracking-wide transition-colors ${isActive('/about') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                    className={`text-[clamp(20px,2.5vw,32px)] font-[RideSlow] tracking-[0.15em] transition-colors ${isActive('/about') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
                 >
                     ABOUT
                 </Link>
                 <Link
                     href="/contact"
-                    className={`text-[clamp(20px,6vw,28px)] font-[RideSlow] tracking-wide transition-colors ${isActive('/contact') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
+                    className={`text-[clamp(20px,2.5vw,32px)] font-[RideSlow] tracking-[0.15em] transition-colors ${isActive('/contact') ? 'text-[#e43720]' : 'hover:text-[#e43720]'}`}
                 >
                     CONTACT
                 </Link>
@@ -66,7 +66,7 @@ export default function Navigation() {
                     href="https://touristswelcome.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[clamp(20px,6vw,28px)] font-[RideSlow] tracking-wide hover:text-[#e43720] transition-colors"
+                    className="text-[clamp(20px,2.5vw,32px)] font-[RideSlow] tracking-[0.15em] hover:text-[#e43720] transition-colors"
                 >
                     HOTEL
                 </a>

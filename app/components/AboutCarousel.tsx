@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { urlForImage } from '../../lib/sanity'
 
@@ -15,16 +15,26 @@ interface AboutCarouselProps {
 
 export function AboutCarousel({ images }: AboutCarouselProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
+    const timerRef = useRef<NodeJS.Timeout>()
+
+    const resetTimer = () => {
+        if (timerRef.current) {
+            clearInterval(timerRef.current)
+        }
+        timerRef.current = setInterval(() => {
+            setCurrentImageIndex((prev) => (prev + 1) % images.length)
+        }, 4000)
+    }
 
     // Auto-rotate images every 4 seconds
     useEffect(() => {
         if (!images || images.length === 0) return;
-
-        const timer = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % images.length);
-        }, 4000);
-
-        return () => clearInterval(timer);
+        resetTimer()
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current)
+            }
+        }
     }, [images]);
 
     if (!images || images.length === 0) {
@@ -55,7 +65,10 @@ export function AboutCarousel({ images }: AboutCarouselProps) {
             {images.length > 1 && (
                 <>
                     <button
-                        onClick={() => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)}
+                        onClick={() => {
+                            setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
+                            resetTimer()
+                        }}
                         className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#ece8d9] hover:text-[#231f20] transition-all active:scale-90 active:-translate-x-1"
                         aria-label="Previous image"
                     >
@@ -64,7 +77,10 @@ export function AboutCarousel({ images }: AboutCarouselProps) {
                         </svg>
                     </button>
                     <button
-                        onClick={() => setCurrentImageIndex((prev) => (prev + 1) % images.length)}
+                        onClick={() => {
+                            setCurrentImageIndex((prev) => (prev + 1) % images.length)
+                            resetTimer()
+                        }}
                         className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#ece8d9] hover:text-[#231f20] transition-all active:scale-90 active:translate-x-1"
                         aria-label="Next image"
                     >

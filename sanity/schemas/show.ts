@@ -44,6 +44,18 @@ export default defineType({
             description: 'Optional second link to Spotify for another artist or related show'
         }),
         defineField({
+            name: 'website',
+            title: 'Artist Website',
+            type: 'url',
+            description: 'Optional website link for the first artist (will make their image clickable)'
+        }),
+        defineField({
+            name: 'secondWebsite',
+            title: 'Second Artist Website',
+            type: 'url',
+            description: 'Optional website link for the second artist (will make their image clickable)'
+        }),
+        defineField({
             name: 'images',
             title: 'Show Images',
             type: 'array',

@@ -12,22 +12,34 @@ interface Show {
     imageUrls: string[]
     spotifyLink?: string
     secondSpotifyLink?: string
+    website?: string
+    secondWebsite?: string
 }
 
 export function ShowCard({ show }: { show: Show }) {
     const [isExpanded, setIsExpanded] = useState(false)
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const detailsRef = useRef<HTMLDivElement>(null)
+    const timerRef = useRef<NodeJS.Timeout>()
+
+    const resetTimer = () => {
+        if (timerRef.current) {
+            clearInterval(timerRef.current)
+        }
+        timerRef.current = setInterval(() => {
+            setCurrentImageIndex((prev) => (prev + 1) % show.imageUrls.length)
+        }, 5000)
+    }
 
     // Auto-rotate images every 5 seconds if there are multiple images
     useEffect(() => {
         if (show.imageUrls.length <= 1) return;
-
-        const interval = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % show.imageUrls.length);
-        }, 5000);
-
-        return () => clearInterval(interval);
+        resetTimer()
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current)
+            }
+        }
     }, [show.imageUrls.length]);
 
     const formattedDate = new Date(show.date).toLocaleDateString('en-US', {
@@ -48,10 +60,12 @@ export function ShowCard({ show }: { show: Show }) {
 
     const nextImage = () => {
         setCurrentImageIndex((prev) => (prev + 1) % show.imageUrls.length)
+        resetTimer()
     }
 
     const previousImage = () => {
         setCurrentImageIndex((prev) => (prev - 1 + show.imageUrls.length) % show.imageUrls.length)
+        resetTimer()
     }
 
     // Split title if it contains "W/" for formatting
@@ -63,17 +77,38 @@ export function ShowCard({ show }: { show: Show }) {
             {show.imageUrls && show.imageUrls.length > 0 && (
                 <div className="relative aspect-[16/9] w-full max-w-2xl mx-auto mb-4">
                     <div className="absolute inset-0">
-                        <Image
-                            src={show.imageUrls[currentImageIndex]}
-                            alt={`${show.title} show image`}
-                            fill
-                            className="object-cover rounded-lg"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
-                            quality={85}
-                            loading="lazy"
-                            placeholder="blur"
-                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJyEkMj84OC8xOi8tQVBCNzhLPS0yRWFFS1NWW1xbMkFlbWRYbFBZW1f/2wBDARUXFx4aHR4eHVdRLSUtV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1f/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                        />
+                        {((currentImageIndex === 0 && show.website) || (currentImageIndex === 1 && show.secondWebsite)) ? (
+                            <a
+                                href={currentImageIndex === 0 ? show.website : show.secondWebsite}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block w-full h-full"
+                            >
+                                <Image
+                                    src={show.imageUrls[currentImageIndex]}
+                                    alt={`${show.title} show image`}
+                                    fill
+                                    className="object-cover rounded-lg"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
+                                    quality={85}
+                                    loading="lazy"
+                                    placeholder="blur"
+                                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJyEkMj84OC8xOi8tQVBCNzhLPS0yRWFFS1NWW1xbMkFlbWRYbFBZW1f/2wBDARUXFx4aHR4eHVdRLSUtV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1f/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                                />
+                            </a>
+                        ) : (
+                            <Image
+                                src={show.imageUrls[currentImageIndex]}
+                                alt={`${show.title} show image`}
+                                fill
+                                className="object-cover rounded-lg"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
+                                quality={85}
+                                loading="lazy"
+                                placeholder="blur"
+                                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJyEkMj84OC8xOi8tQVBCNzhLPS0yRWFFS1NWW1xbMkFlbWRYbFBZW1f/2wBDARUXFx4aHR4eHVdRLSUtV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1f/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                            />
+                        )}
                     </div>
                     {show.imageUrls.length > 1 && (
                         <>

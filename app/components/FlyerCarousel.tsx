@@ -21,10 +21,26 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
     const [buttonColor, setButtonColor] = useState('#ece8d9')
     const imageRef = useRef<HTMLImageElement>(null)
     const buttonRef = useRef<HTMLButtonElement>(null)
+    const timerRef = useRef<NodeJS.Timeout>()
 
     if (!flyers || flyers.length === 0) return null
 
     const currentFlyer = flyers[currentFlyerIndex]
+
+    const resetTimer = () => {
+        if (!isPlaying) return;
+        if (timerRef.current) {
+            clearInterval(timerRef.current)
+        }
+        timerRef.current = setInterval(() => {
+            if (currentImageIndex === currentFlyer.imageUrls.length - 1) {
+                setCurrentFlyerIndex((prev) => (prev + 1) % flyers.length)
+                setCurrentImageIndex(0)
+            } else {
+                setCurrentImageIndex((prev) => prev + 1)
+            }
+        }, 8000)
+    }
 
     // Function to check if a point is over a transparent area
     const checkTransparency = (x: number, y: number) => {
@@ -83,17 +99,12 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
     // Auto-rotate images every 8 seconds
     useEffect(() => {
         if (!isPlaying) return;
-
-        const timer = setInterval(() => {
-            if (currentImageIndex === currentFlyer.imageUrls.length - 1) {
-                setCurrentFlyerIndex((prev) => (prev + 1) % flyers.length)
-                setCurrentImageIndex(0)
-            } else {
-                setCurrentImageIndex((prev) => prev + 1)
+        resetTimer()
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current)
             }
-        }, 8000)
-
-        return () => clearInterval(timer)
+        }
     }, [currentFlyer, currentImageIndex, flyers.length, isPlaying])
 
     const nextImage = () => {
@@ -103,6 +114,7 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         } else {
             setCurrentImageIndex((prev) => prev + 1)
         }
+        resetTimer()
     }
 
     const prevImage = () => {
@@ -112,6 +124,7 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         } else {
             setCurrentImageIndex((prev) => prev - 1)
         }
+        resetTimer()
     }
 
     const togglePlayPause = () => {

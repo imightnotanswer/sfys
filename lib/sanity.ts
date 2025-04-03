@@ -9,6 +9,8 @@ interface Show {
     secondDescription?: string;
     spotifyLink?: string;
     secondSpotifyLink?: string;
+    website?: string;
+    secondWebsite?: string;
     imageUrls: string[];
 }
 
@@ -75,6 +77,8 @@ export async function getShows() {
                 secondDescription,
                 spotifyLink,
                 secondSpotifyLink,
+                website,
+                secondWebsite,
                 "imageUrls": images[].asset->url
             }
         `

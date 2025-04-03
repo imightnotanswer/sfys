@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { urlForImage } from '../../lib/sanity'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { urlForImage } from '@/lib/sanity'
 
 interface AboutCarouselProps {
     images: {
@@ -13,83 +14,109 @@ interface AboutCarouselProps {
     }[]
 }
 
-export function AboutCarousel({ images }: AboutCarouselProps) {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0)
-    const timerRef = useRef<NodeJS.Timeout>()
+export default function AboutCarousel({ images }: AboutCarouselProps) {
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const [isTransitioning, setIsTransitioning] = useState(false)
 
-    const resetTimer = () => {
-        if (timerRef.current) {
-            clearInterval(timerRef.current)
-        }
-        timerRef.current = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % images.length)
-        }, 4000)
+    // Preload next image
+    useEffect(() => {
+        if (!images || images.length === 0) return
+        const nextIndex = (currentIndex + 1) % images.length
+        const nextImageUrl = urlForImage(images[nextIndex].asset).url()
+        const img = document.createElement('img')
+        img.src = nextImageUrl
+    }, [currentIndex, images])
+
+    const handlePrevious = () => {
+        if (isTransitioning || !images || images.length === 0) return
+        setIsTransitioning(true)
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+        setTimeout(() => setIsTransitioning(false), 700)
     }
 
-    // Auto-rotate images every 4 seconds
+    const handleNext = () => {
+        if (isTransitioning || !images || images.length === 0) return
+        setIsTransitioning(true)
+        setCurrentIndex((prev) => (prev + 1) % images.length)
+        setTimeout(() => setIsTransitioning(false), 700)
+    }
+
+    // Auto-rotation
     useEffect(() => {
-        if (!images || images.length === 0) return;
-        resetTimer()
-        return () => {
-            if (timerRef.current) {
-                clearInterval(timerRef.current)
+        if (!images || images.length === 0) return
+        const interval = setInterval(() => {
+            if (!isTransitioning) {
+                handleNext()
             }
-        }
-    }, [images]);
+        }, 4000)
+
+        return () => clearInterval(interval)
+    }, [isTransitioning, images])
 
     if (!images || images.length === 0) {
-        return null;
+        return null
     }
 
-    // Get current image
-    const currentImage = images[currentImageIndex];
-    if (!currentImage?.asset) {
-        return null;
+    const currentImage = images[currentIndex]
+    const nextIndex = (currentIndex + 1) % images.length
+    const nextImage = images[nextIndex]
+
+    if (!currentImage?.asset || !nextImage?.asset) {
+        return null
     }
 
-    // Get image URL using Sanity's URL builder
-    const imageUrl = urlForImage(currentImage.asset).url();
+    const currentImageUrl = urlForImage(currentImage.asset).url()
+    const nextImageUrl = urlForImage(nextImage.asset).url()
 
     return (
-        <div className="relative w-full max-w-4xl mx-auto">
-            <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden">
+        <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
+            {/* Current Image */}
+            <div
+                className={`absolute inset-0 transition-opacity duration-700 ${isTransitioning ? 'opacity-0' : 'opacity-100'
+                    }`}
+            >
                 <Image
-                    src={imageUrl}
+                    src={currentImageUrl}
                     alt="About page carousel image"
                     fill
-                    sizes="100vw"
                     className="object-cover"
                     priority
                 />
             </div>
-            {images.length > 1 && (
-                <>
-                    <button
-                        onClick={() => {
-                            setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
-                            resetTimer()
-                        }}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#ece8d9] hover:text-[#231f20] transition-all active:scale-90 active:-translate-x-1"
-                        aria-label="Previous image"
-                    >
-                        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <button
-                        onClick={() => {
-                            setCurrentImageIndex((prev) => (prev + 1) % images.length)
-                            resetTimer()
-                        }}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#ece8d9] hover:text-[#231f20] transition-all active:scale-90 active:translate-x-1"
-                        aria-label="Next image"
-                    >
-                        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                </>
-            )}
+
+            {/* Next Image (preloaded) */}
+            <div
+                className={`absolute inset-0 transition-opacity duration-700 ${isTransitioning ? 'opacity-100' : 'opacity-0'
+                    }`}
+            >
+                <Image
+                    src={nextImageUrl}
+                    alt="About page carousel image"
+                    fill
+                    className="object-cover"
+                />
+            </div>
+
+            {/* Navigation Buttons */}
+            <button
+                onClick={handlePrevious}
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-10"
+                aria-label="Previous image"
+            >
+                <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+                onClick={handleNext}
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-10"
+                aria-label="Next image"
+            >
+                <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Image Counter */}
+            <div className="absolute bottom-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm z-10">
+                {currentIndex + 1} / {images.length}
+            </div>
         </div>
-    );
+    )
 } 

@@ -8,8 +8,7 @@ export default defineType({
         defineField({
             name: 'title',
             title: 'Title',
-            type: 'string',
-            validation: rule => rule.required()
+            type: 'string'
         }),
         defineField({
             name: 'image',

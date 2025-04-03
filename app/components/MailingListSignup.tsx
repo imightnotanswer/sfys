@@ -9,7 +9,7 @@ interface MailingListSignupProps {
 export default function MailingListSignup({ isFooter = false }: MailingListSignupProps) {
     const [email, setEmail] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+    const [status, setStatus] = useState<'idle' | 'success' | 'error' | 'pending'>('idle')
     const [errorMessage, setErrorMessage] = useState('')
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -36,7 +36,7 @@ export default function MailingListSignup({ isFooter = false }: MailingListSignu
             }
 
             setEmail('')
-            setStatus('success')
+            setStatus(data.status || 'success')
         } catch (error) {
             console.error('Error submitting form:', error)
             setStatus('error')
@@ -68,6 +68,9 @@ export default function MailingListSignup({ isFooter = false }: MailingListSignu
             </button>
             {status === 'success' && (
                 <p className="absolute mt-6 text-xs text-green-600">Successfully subscribed!</p>
+            )}
+            {status === 'pending' && (
+                <p className="absolute mt-6 text-xs text-blue-600">Please check your email to confirm your subscription!</p>
             )}
             {status === 'error' && (
                 <p className="absolute mt-6 text-xs text-red-600">{errorMessage}</p>

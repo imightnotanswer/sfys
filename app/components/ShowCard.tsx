@@ -138,7 +138,7 @@ export function ShowCard({ show }: { show: Show }) {
                 <div className="flex flex-col items-center">
                     <div className="flex flex-col items-center relative w-full">
                         <div className="flex flex-col items-center">
-                            <h3 className="font-[var(--font-dumpling)] text-[clamp(2rem,5vw,2.5rem)] text-center">
+                            <h3 className="font-[var(--font-dumpling)] text-[clamp(1.75rem,4vw,2.25rem)] text-center">
                                 {hasSupporting ? (
                                     <>
                                         {titleParts[0].toUpperCase()}

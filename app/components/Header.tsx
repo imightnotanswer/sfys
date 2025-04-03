@@ -71,7 +71,7 @@ export default function Header() {
                         />
                     </a>
                     <Link href="/" className="block text-center -mt-4">
-                        <h1 className="text-[clamp(42px,10vw,70px)] leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors">
+                        <h1 className="text-[clamp(48px,10vw,70px)] leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>

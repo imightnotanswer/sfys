@@ -21,22 +21,22 @@ export function AboutContent({ paragraphs }: AboutContentProps) {
     }
 
     return (
-        <section className="py-16 overflow-hidden">
-            <div className="w-full">
-                <div className="space-y-8 relative flex flex-col items-center" ref={ref}>
+        <section className="py-16 overflow-hidden flex justify-center">
+            <div className="w-full max-w-5xl">
+                <div className="space-y-4 relative flex flex-col items-center" ref={ref}>
                     <motion.p
                         initial={{ opacity: 0, y: 50 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                         transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center font-bold"
+                        className="font-['Courier New'] text-base leading-[24px] text-[#231f20] w-full text-center font-bold"
                     >
-                        {paragraphs.firstParagraph}
+                        {paragraphs.firstParagraph.replace('benefit.', 'benefit.\n')}
                     </motion.p>
                     <motion.p
                         initial={{ opacity: 0, y: 50 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                         transition={{ duration: 0.8, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center font-bold"
+                        className="font-['Courier New'] text-base leading-[24px] text-[#231f20] w-full text-center font-bold"
                     >
                         {paragraphs.secondParagraph}
                     </motion.p>
@@ -44,7 +44,7 @@ export function AboutContent({ paragraphs }: AboutContentProps) {
                         initial={{ opacity: 0, y: 50 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                         transition={{ duration: 0.8, delay: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center font-bold"
+                        className="font-['Courier New'] text-base leading-[24px] text-[#231f20] w-full text-center font-bold"
                     >
                         {paragraphs.thirdParagraph}
                     </motion.p>

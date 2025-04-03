@@ -21,7 +21,7 @@ export function PastArtists({ artists }: { artists: PastArtist[] }) {
     }
 
     return (
-        <div className="py-16">
+        <div className="py-16 -mt-20">
             <h2 className="text-[min(8vw,4rem)] font-[var(--font-benditos)] tracking-wide text-center mb-16 whitespace-nowrap">
                 PAST SLUMBER-ERS
             </h2>
@@ -77,7 +77,7 @@ function ArtistCard({ artist, index }: { artist: PastArtist; index: number }) {
                             />
                         </div>
                     )}
-                    <span className="font-['Courier New'] font-bold text-[14px] leading-[20px] text-[#231f20] group-hover:text-[#e43720] transition-colors">
+                    <span className="font-['Courier New'] font-bold text-base leading-[20px] text-[#231f20] group-hover:text-[#e43720] transition-colors">
                         {artist.name}
                     </span>
                 </a>
@@ -93,7 +93,7 @@ function ArtistCard({ artist, index }: { artist: PastArtist; index: number }) {
                             />
                         </div>
                     )}
-                    <span className="font-['Courier New'] font-bold text-[14px] leading-[20px] text-[#231f20] group-hover:text-[#e43720] transition-colors">
+                    <span className="font-['Courier New'] font-bold text-base leading-[20px] text-[#231f20] group-hover:text-[#e43720] transition-colors">
                         {artist.name}
                     </span>
                 </div>

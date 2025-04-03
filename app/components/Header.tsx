@@ -20,11 +20,11 @@ export default function Header() {
     return (
         <header className="w-full">
             {/* Notice Banner */}
-            <div id="notice" className="py-1.5 px-5 bg-[#1c1518]">
+            {/* <div id="notice" className="py-1.5 px-5 bg-[#1c1518]">
                 <div className="text-[#eceadf] text-center italic text-[1em] leading-[1.9em] font-['prestige-elite']">
                     {bannerText}
                 </div>
-            </div>
+            </div> */}
 
             {/* Main header content */}
             <div className="py-4 pb-0 w-full overflow-x-hidden">
@@ -71,7 +71,7 @@ export default function Header() {
                         />
                     </a>
                     <Link href="/" className="block text-center -mt-4">
-                        <h1 className="text-[clamp(48px,10vw,70px)] leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors">
+                        <h1 className="text-[clamp(50px,11vw,70px)] leading-[0.9] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors whitespace-nowrap">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>

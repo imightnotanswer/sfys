@@ -19,9 +19,13 @@ export function ContactPhotoCarousel({ photos, defaultImageUrl }: ContactPhotoCa
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const [isTransitioning, setIsTransitioning] = useState(false)
 
-    // Auto-rotate images every 6 seconds
+    // Auto-rotate images every 6 seconds only if there are multiple images
     useEffect(() => {
         if (!photos || photos.length === 0) return;
+
+        // Check if there are multiple images to cycle through
+        const totalImages = photos.reduce((sum, photo) => sum + photo.imageUrls.length, 0);
+        if (totalImages <= 1) return;
 
         const timer = setInterval(() => {
             setIsTransitioning(true);

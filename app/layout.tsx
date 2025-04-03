@@ -37,6 +37,24 @@ const dumpling = localFont({
     variable: '--font-dumpling',
 })
 
+// Register TAYBea font
+const bea = localFont({
+    src: '../public/fonts/TAYBea.otf',
+    variable: '--font-bea',
+})
+
+// Register TayManna font
+const manna = localFont({
+    src: '../public/fonts/TayManna.otf',
+    variable: '--font-manna',
+})
+
+// Register TAYBenditos font
+const benditos = localFont({
+    src: '../public/fonts/TAYBenditos.otf',
+    variable: '--font-benditos',
+})
+
 export const metadata: Metadata = {
     title: 'Sing For Your Slumber',
     description: 'A live music series in North Adams, MA',
@@ -54,7 +72,7 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className={`${spaceMono.variable} ${wingman.variable} ${gothamNarrow.variable} ${bartender.variable} ${dumpling.variable} font-sans antialiased bg-[#ece8d9] text-[#231f20]`}>
+        <html lang="en" className={`${spaceMono.variable} ${wingman.variable} ${gothamNarrow.variable} ${bartender.variable} ${dumpling.variable} ${bea.variable} ${manna.variable} ${benditos.variable} font-sans antialiased bg-[#ece8d9] text-[#231f20]`}>
             <body className="min-h-screen flex flex-col">
                 {/* Spotify Player Popout with TOURISTS RADIO playlist */}
                 <SidePopout

@@ -56,28 +56,12 @@ export default function SidePopout({
         localStorage.removeItem('touristsRadioManuallyClosed');
     };
 
-    // Close when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            const popout = document.getElementById('side-popout');
-            const toggleButton = document.getElementById('popout-toggle');
-
-            if (popout && !popout.contains(e.target as Node) &&
-                toggleButton && !toggleButton.contains(e.target as Node)) {
-                handleClose();
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
     return (
-        <div className="fixed top-[40%] z-50 transform -translate-y-1/2">
+        <div className={`fixed bottom-0 z-50 ${position === 'left' ? 'left-0' : 'right-0'}`}>
             {/* Popout content */}
             <div
                 id="side-popout"
-                className={`absolute top-0 transform transition-all duration-500 ease-in-out ${position === 'left'
+                className={`absolute bottom-0 transform transition-all duration-500 ease-in-out ${position === 'left'
                     ? isOpen
                         ? 'translate-x-0 opacity-100 scale-100'
                         : '-translate-x-full opacity-0 scale-95 pointer-events-none'
@@ -89,7 +73,7 @@ export default function SidePopout({
                     width: '380px',
                     background: '#121212',
                     border: '1px solid #121212',
-                    transformOrigin: position === 'left' ? 'left center' : 'right center'
+                    transformOrigin: position === 'left' ? 'left bottom' : 'right bottom'
                 }}
             >
                 {/* Header row with toggle button and title - entire header clickable */}
@@ -111,7 +95,7 @@ export default function SidePopout({
                 </div>
 
                 {/* Main content - Spotify player with proper sizing */}
-                <div style={{ height: '480px' }}>
+                <div style={{ height: '83px' }}>
                     <iframe
                         src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
                         width="100%"
@@ -126,7 +110,8 @@ export default function SidePopout({
             {/* Only show standalone toggle when popout is closed */}
             {!isOpen && (
                 <div
-                    className={`${position === 'left' ? 'left-0' : 'right-0'} absolute transition-all duration-500 ease-in-out ${isOpen ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
+                    className={`absolute bottom-0 transition-all duration-500 ease-in-out ${isOpen ? 'opacity-0 scale-90' : 'opacity-100 scale-100'
+                        }`}
                 >
                     <button
                         id="popout-toggle"

@@ -13,16 +13,16 @@ interface PastArtist {
 }
 
 export function PastArtists({ artists }: { artists: PastArtist[] }) {
-    const [visibleCount, setVisibleCount] = useState(12)
+    const [visibleCount, setVisibleCount] = useState(36)
     const hasMore = visibleCount < artists.length
 
     const loadMore = () => {
-        setVisibleCount(prev => Math.min(prev + 12, artists.length))
+        setVisibleCount(prev => Math.min(prev + 36, artists.length))
     }
 
     return (
         <div className="py-16">
-            <h2 className="text-[min(6vw,3rem)] font-['TAYBartender'] tracking-wide text-center mb-16 whitespace-nowrap">
+            <h2 className="text-[min(8vw,4rem)] font-[var(--font-benditos)] tracking-wide text-center mb-16 whitespace-nowrap">
                 PAST SLUMBER-ERS
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -31,7 +31,7 @@ export function PastArtists({ artists }: { artists: PastArtist[] }) {
                 ))}
             </div>
             {hasMore && (
-                <div className="flex justify-center mt-16">
+                <div className="flex justify-center mt-32">
                     <button
                         onClick={loadMore}
                         className="font-['Courier New'] text-[14px] px-8 py-4 border-2 border-[#231f20] hover:bg-[#231f20] hover:text-[#ece8d9] transition-colors"

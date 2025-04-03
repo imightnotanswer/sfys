@@ -1,8 +1,8 @@
 import { defineType, defineField } from 'sanity'
 
 export default defineType({
-    name: 'flyer',
-    title: 'Flyer',
+    name: 'homePageHeader',
+    title: 'Home Page Header',
     type: 'document',
     fields: [
         defineField({
@@ -13,7 +13,7 @@ export default defineType({
         }),
         defineField({
             name: 'image',
-            title: 'Flyer Image',
+            title: 'Header Image',
             type: 'image',
             options: {
                 hotspot: true
@@ -24,7 +24,7 @@ export default defineType({
             name: 'show',
             title: 'Associated Show',
             type: 'reference',
-            to: [{ type: 'show' }]
+            to: [{ type: 'upcomingShows' }]
         }),
         defineField({
             name: 'description',

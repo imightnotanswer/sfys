@@ -5,11 +5,11 @@ export async function GET() {
     try {
         // Get all unprocessed shows that have already happened
         const pastShows = await client.fetch(`
-            *[_type == "show" && dateTime(date) < dateTime(now()) && !processed] {
+            *[_type == "upcomingShows" && dateTime(date) < dateTime(now()) && !processed] {
                 _id,
                 artistName,
                 artistWebsite,
-                "imageUrl": image.asset->url
+                "imageUrl": images[0].asset->url
             }
         `)
 

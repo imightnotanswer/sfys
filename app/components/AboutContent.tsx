@@ -28,7 +28,7 @@ export function AboutContent({ paragraphs }: AboutContentProps) {
                         initial={{ opacity: 0, y: 50 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                         transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center"
+                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center font-bold"
                     >
                         {paragraphs.firstParagraph}
                     </motion.p>
@@ -36,7 +36,7 @@ export function AboutContent({ paragraphs }: AboutContentProps) {
                         initial={{ opacity: 0, y: 50 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                         transition={{ duration: 0.8, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center"
+                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center font-bold"
                     >
                         {paragraphs.secondParagraph}
                     </motion.p>
@@ -44,7 +44,7 @@ export function AboutContent({ paragraphs }: AboutContentProps) {
                         initial={{ opacity: 0, y: 50 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                         transition={{ duration: 0.8, delay: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center"
+                        className="font-['Courier New'] text-[14px] leading-[24px] text-[#231f20] w-full max-w-5xl text-center font-bold"
                     >
                         {paragraphs.thirdParagraph}
                     </motion.p>

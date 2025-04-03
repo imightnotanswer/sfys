@@ -1,47 +1,49 @@
-export default {
-    name: 'show',
-    title: 'Show',
+import { defineType, defineField } from 'sanity'
+
+export default defineType({
+    name: 'upcomingShows',
+    title: 'Upcoming Shows',
     type: 'document',
     fields: [
-        {
+        defineField({
             name: 'title',
             title: 'Title',
             type: 'string',
             description: 'The title of the show',
             validation: (Rule: any) => Rule.required(),
-        },
-        {
+        }),
+        defineField({
             name: 'date',
             title: 'Date',
             type: 'datetime',
             description: 'The date and time of the show',
             validation: (Rule: any) => Rule.required(),
-        },
-        {
+        }),
+        defineField({
             name: 'description',
             title: 'Description',
             type: 'text',
             description: 'A description of the show'
-        },
-        {
+        }),
+        defineField({
             name: 'secondDescription',
             title: 'Second Description',
             type: 'text',
             description: 'An optional secondary description for the show'
-        },
-        {
+        }),
+        defineField({
             name: 'spotifyLink',
             title: 'Spotify Link',
             type: 'url',
             description: 'Link to Spotify for the artist or show'
-        },
-        {
+        }),
+        defineField({
             name: 'secondSpotifyLink',
             title: 'Second Spotify Link',
             type: 'url',
             description: 'Optional second link to Spotify for another artist or related show'
-        },
-        {
+        }),
+        defineField({
             name: 'images',
             title: 'Show Images',
             type: 'array',
@@ -55,7 +57,7 @@ export default {
             ],
             description: 'Images for the show (first image will be the main image)',
             validation: (Rule: any) => Rule.required().min(1)
-        }
+        })
     ],
     preview: {
         select: {
@@ -63,13 +65,15 @@ export default {
             date: 'date',
             media: 'images.0'
         },
-        prepare(selection: { title: string, date: string, media: any }) {
-            const { title, date, media } = selection
+        prepare(value: Record<string, any>) {
+            const title = value.title || 'Untitled'
+            const date = value.date ? new Date(value.date).toLocaleDateString() : 'No date set'
+            const media = value.media
             return {
-                title: title,
-                subtitle: date ? new Date(date).toLocaleDateString() : 'No date set',
-                media: media
+                title,
+                subtitle: date,
+                media
             }
         }
     }
-} 
+}) 

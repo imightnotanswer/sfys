@@ -1,20 +1,20 @@
 import { type SchemaTypeDefinition } from 'sanity'
-import artist from './artist'
-import show from './show'
+import upcomingShows from './show'
 import pastArtist from './pastArtist'
-import flyer from './flyer'
+import homePageHeader from './flyer'
 import contactPhoto from './contactPhoto'
 import aboutParagraph from './aboutParagraph'
 import aboutCarousel from './aboutCarousel'
+import topBannerText from './topBannerText'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
     types: [
-        artist,
-        show,
+        upcomingShows,
         pastArtist,
-        flyer,
+        homePageHeader,
         contactPhoto,
         aboutParagraph,
-        aboutCarousel
+        aboutCarousel,
+        topBannerText
     ]
 } 

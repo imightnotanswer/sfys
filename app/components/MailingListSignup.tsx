@@ -9,28 +9,38 @@ interface MailingListSignupProps {
 export default function MailingListSignup({ isFooter = false }: MailingListSignupProps) {
     const [email, setEmail] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+    const [errorMessage, setErrorMessage] = useState('')
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!email) return
 
         setIsSubmitting(true)
+        setStatus('idle')
+        setErrorMessage('')
 
         try {
-            const formData = new FormData()
-            formData.append('EMAIL', email)
-
-            await fetch('https://touristswelcome.us17.list-manage.com/subscribe/post?u=e5419cc011afba380c93cf181&id=b12fce1b52', {
+            const response = await fetch('/api/subscribe', {
                 method: 'POST',
-                mode: 'no-cors',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
             })
 
+            const data = await response.json()
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to subscribe')
+            }
+
             setEmail('')
-            // Since we can't get the actual response due to CORS, we'll just assume success
-            // In a production environment, you might want to use their API or a proxy
+            setStatus('success')
         } catch (error) {
             console.error('Error submitting form:', error)
+            setStatus('error')
+            setErrorMessage(error instanceof Error ? error.message : 'Failed to subscribe')
         } finally {
             setIsSubmitting(false)
         }
@@ -56,6 +66,12 @@ export default function MailingListSignup({ isFooter = false }: MailingListSignu
             >
                 &gt;
             </button>
+            {status === 'success' && (
+                <p className="absolute mt-6 text-xs text-green-600">Successfully subscribed!</p>
+            )}
+            {status === 'error' && (
+                <p className="absolute mt-6 text-xs text-red-600">{errorMessage}</p>
+            )}
         </form>
     )
 } 

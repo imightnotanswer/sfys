@@ -67,7 +67,7 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 export async function getShows() {
     try {
         const query = `
-            *[_type == "show"] | order(date asc) {
+            *[_type == "upcomingShows"] | order(date asc) {
                 _id,
                 title,
                 date,
@@ -150,7 +150,7 @@ let flyersCacheTime: number = 0;
 export async function getFlyers() {
     try {
         const query = `
-            *[_type == "flyer"] {
+            *[_type == "homePageHeader"] {
                 _id,
                 title,
                 "imageUrls": [image.asset->url]
@@ -181,7 +181,7 @@ export async function getContactPhotos() {
         const query = `*[_type == "contactPhoto"] {
             _id,
             title,
-            "imageUrls": images[].asset->url
+            "imageUrls": [image.asset->url]
         } | order(_createdAt desc)`;
 
         const photos = await client.fetch(query);
@@ -234,5 +234,20 @@ export async function getAboutCarouselImages() {
     } catch (error) {
         console.error('Error fetching about carousel images:', error);
         return { images: [] };
+    }
+}
+
+export async function getTopBannerText() {
+    try {
+        const query = `
+            *[_type == "topBannerText"][0] {
+                text
+            }
+        `
+        const result = await client.fetch(query)
+        return result?.text || "Be in the know about upcoming shows."
+    } catch (error) {
+        console.error('Error fetching top banner text:', error)
+        return "Be in the know about upcoming shows."
     }
 } 

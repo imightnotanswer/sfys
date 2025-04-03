@@ -1,16 +1,28 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Navigation from './Navigation'
+import { getTopBannerText } from '@/lib/sanity'
 
 export default function Header() {
+    const [bannerText, setBannerText] = useState("Be in the know about upcoming shows.")
+
+    useEffect(() => {
+        const fetchBannerText = async () => {
+            const text = await getTopBannerText()
+            setBannerText(text)
+        }
+        fetchBannerText()
+    }, [])
+
     return (
         <header className="w-full">
             {/* Notice Banner */}
             <div id="notice" className="py-1.5 px-5 bg-[#1c1518]">
                 <div className="text-[#eceadf] text-center italic text-[1em] leading-[1.9em] font-['prestige-elite']">
-                    Be in the know about upcoming shows.
+                    {bannerText}
                 </div>
             </div>
 
@@ -43,7 +55,7 @@ export default function Header() {
                 </div>
 
                 {/* Mobile Layout */}
-                <div className="md:hidden flex flex-col items-center gap-4 px-4">
+                <div className="md:hidden flex flex-col items-center gap-8 px-4">
                     <a
                         href="http://touristswelcome.com/"
                         target="_blank"
@@ -66,10 +78,8 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* Navigation - responsive styles handled in Navigation component */}
-            <div className="mt-0">
-                <Navigation />
-            </div>
+            {/* Navigation */}
+            <Navigation />
         </header>
     )
 } 

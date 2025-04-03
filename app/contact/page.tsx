@@ -23,13 +23,9 @@ export default async function Contact() {
                                 <div>
                                     <ShakeText className="font-[var(--font-dumpling)] text-[min(8vw,4rem)]">Let&apos;s Talk</ShakeText>
                                     <p className="text-base leading-relaxed font-[var(--font-dumpling)]">
-                                        If you are an artist interested in performing at TOURISTS, please email
-                                    </p>
-                                    <p className="font-[var(--font-dumpling)]">
-                                        <a href="mailto:eric@touristswelcome.com" className="text-lg md:text-xl font-bold hover:text-[#e43720] transition-colors font-[var(--font-dumpling)]">
-                                            <ShakeText as="span" className="inline-block">
-                                                eric@touristswelcome.com
-                                            </ShakeText>
+                                        If you are an artist interested in performing at TOURISTS, please email{' '}
+                                        <a href="mailto:eric@touristswelcome.com" className="hover:text-[#e43720] transition-colors">
+                                            eric@touristswelcome.com
                                         </a>
                                     </p>
                                 </div>

@@ -32,7 +32,7 @@ export default function Header() {
                 <div className="hidden md:flex items-center justify-between gap-8 px-8 max-w-[2000px] mx-auto">
                     {/* Title */}
                     <Link href="/" className="block shrink-0 -mt-4">
-                        <h1 className="text-[clamp(48px,5vw,84px)] leading-[0.9] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors whitespace-normal">
+                        <h1 className="text-[clamp(48px,8.33vw,96px)] leading-[0.9] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors whitespace-normal">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>
@@ -47,9 +47,9 @@ export default function Header() {
                         <Image
                             src="/radio-logo.png"
                             alt="TOURISTS Radio Logo"
-                            width={210}
-                            height={210}
-                            className="object-contain shrink-0 transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
+                            width={220}
+                            height={220}
+                            className="object-contain transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
                         />
                     </a>
                 </div>

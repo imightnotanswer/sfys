@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { urlForImage } from '@/lib/sanity'
@@ -16,84 +16,60 @@ interface AboutCarouselProps {
 
 export default function AboutCarousel({ images }: AboutCarouselProps) {
     const [currentIndex, setCurrentIndex] = useState(0)
-    const [isTransitioning, setIsTransitioning] = useState(false)
+    const timerRef = useRef<NodeJS.Timeout>()
 
-    // Preload next image
+    // Reset timer whenever index changes
     useEffect(() => {
-        if (!images || images.length === 0) return
-        const nextIndex = (currentIndex + 1) % images.length
-        const nextImageUrl = urlForImage(images[nextIndex].asset).url()
-        const img = document.createElement('img')
-        img.src = nextImageUrl
+        if (!images || images.length <= 1) return
+
+        // Clear any existing timer
+        if (timerRef.current) {
+            clearTimeout(timerRef.current)
+        }
+
+        // Set new timer
+        timerRef.current = setTimeout(() => {
+            setCurrentIndex((prev) => (prev + 1) % images.length)
+        }, 5000)
+
+        // Cleanup on unmount or when index changes
+        return () => {
+            if (timerRef.current) {
+                clearTimeout(timerRef.current)
+            }
+        }
     }, [currentIndex, images])
 
     const handlePrevious = () => {
-        if (isTransitioning || !images || images.length === 0) return
-        setIsTransitioning(true)
+        if (!images || images.length === 0) return
         setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
-        setTimeout(() => setIsTransitioning(false), 700)
     }
 
     const handleNext = () => {
-        if (isTransitioning || !images || images.length === 0) return
-        setIsTransitioning(true)
-        setCurrentIndex((prev) => (prev + 1) % images.length)
-        setTimeout(() => setIsTransitioning(false), 700)
-    }
-
-    // Auto-rotation
-    useEffect(() => {
         if (!images || images.length === 0) return
-        const interval = setInterval(() => {
-            if (!isTransitioning) {
-                handleNext()
-            }
-        }, 4000)
-
-        return () => clearInterval(interval)
-    }, [isTransitioning, images])
+        setCurrentIndex((prev) => (prev + 1) % images.length)
+    }
 
     if (!images || images.length === 0) {
         return null
     }
 
     const currentImage = images[currentIndex]
-    const nextIndex = (currentIndex + 1) % images.length
-    const nextImage = images[nextIndex]
-
-    if (!currentImage?.asset || !nextImage?.asset) {
+    if (!currentImage?.asset) {
         return null
     }
 
     const currentImageUrl = urlForImage(currentImage.asset).url()
-    const nextImageUrl = urlForImage(nextImage.asset).url()
 
     return (
         <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
-            {/* Current Image */}
-            <div
-                className={`absolute inset-0 transition-opacity duration-700 ${isTransitioning ? 'opacity-0' : 'opacity-100'
-                    }`}
-            >
+            <div className="absolute inset-0 transition-all duration-700">
                 <Image
                     src={currentImageUrl}
                     alt="About page carousel image"
                     fill
                     className="object-cover"
                     priority
-                />
-            </div>
-
-            {/* Next Image (preloaded) */}
-            <div
-                className={`absolute inset-0 transition-opacity duration-700 ${isTransitioning ? 'opacity-100' : 'opacity-0'
-                    }`}
-            >
-                <Image
-                    src={nextImageUrl}
-                    alt="About page carousel image"
-                    fill
-                    className="object-cover"
                 />
             </div>
 
@@ -112,11 +88,6 @@ export default function AboutCarousel({ images }: AboutCarouselProps) {
             >
                 <ChevronRight className="w-6 h-6" />
             </button>
-
-            {/* Image Counter */}
-            <div className="absolute bottom-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm z-10">
-                {currentIndex + 1} / {images.length}
-            </div>
         </div>
     )
 } 

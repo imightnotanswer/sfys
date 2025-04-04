@@ -29,10 +29,10 @@ export default function Header() {
             {/* Main header content */}
             <div className="pt-4 w-full overflow-visible">
                 {/* Desktop and Tablet Layout */}
-                <div className="hidden md:flex items-center justify-between gap-8 px-8 max-w-[2000px] mx-auto">
+                <div className="hidden sm:flex items-center justify-between gap-8 px-4 md:px-8 max-w-[2000px] mx-auto">
                     {/* Title */}
                     <Link href="/" className="block">
-                        <h1 className="text-[clamp(48px,8.33vw,96px)] leading-[1.2] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors">
+                        <h1 className="text-[clamp(42px,6vw,96px)] leading-[1.2] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors whitespace-nowrap">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>
@@ -42,7 +42,7 @@ export default function Header() {
                         href="http://touristswelcome.com/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group"
+                        className="group shrink-0"
                     >
                         <Image
                             src="/radio-logo.png"
@@ -50,12 +50,13 @@ export default function Header() {
                             width={220}
                             height={220}
                             className="object-contain transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
+                            sizes="220px"
                         />
                     </a>
                 </div>
 
                 {/* Mobile Layout */}
-                <div className="md:hidden flex flex-col items-center justify-center w-full px-6">
+                <div className="sm:hidden flex flex-col items-center justify-center w-full px-6">
                     <a
                         href="http://touristswelcome.com/"
                         target="_blank"
@@ -68,10 +69,11 @@ export default function Header() {
                             width={220}
                             height={220}
                             className="object-contain transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
+                            sizes="220px"
                         />
                     </a>
                     <Link href="/" className="block w-full">
-                        <h1 className="text-[clamp(42px,10vw,70px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center">
+                        <h1 className="text-[clamp(36px,9vw,70px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center whitespace-nowrap">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>

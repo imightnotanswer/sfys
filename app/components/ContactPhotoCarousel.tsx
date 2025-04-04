@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
+import { getImageUrl } from '@/lib/sanity'
 
 interface ContactPhoto {
     _id: string
@@ -48,14 +49,16 @@ export function ContactPhotoCarousel({ photos, defaultImageUrl }: ContactPhotoCa
     if (!photos || photos.length === 0 || !allImages.length) {
         return (
             <div className="relative w-full">
-                <div className="relative aspect-[2/3] w-full max-w-md mx-auto">
+                <div className="relative aspect-[2/3] w-full max-w-md mx-auto" style={{ position: "relative" }}>
                     <Image
-                        src={defaultImageUrl}
-                        alt="Contact page photo"
+                        src={getImageUrl(defaultImageUrl)}
+                        alt="Contact page default photo"
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover rounded-lg"
                         priority
+                        quality={90}
+                        style={{ position: "absolute" }}
                     />
                 </div>
             </div>
@@ -66,26 +69,30 @@ export function ContactPhotoCarousel({ photos, defaultImageUrl }: ContactPhotoCa
 
     return (
         <div className="relative w-full">
-            <div className="relative aspect-[2/3] w-full max-w-md mx-auto">
+            <div className="relative aspect-[2/3] w-full max-w-md mx-auto" style={{ position: "relative" }}>
                 {/* Current Image */}
                 <Image
                     key={`current-${currentIndex}`}
-                    src={allImages[currentIndex].url}
-                    alt={allImages[currentIndex].title}
+                    src={getImageUrl(allImages[currentIndex].url)}
+                    alt={`Contact photo - ${allImages[currentIndex].title}`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover rounded-lg transition-all duration-1000 ease-in-out"
                     priority
+                    quality={90}
+                    style={{ position: "absolute" }}
                 />
                 {/* Next Image (preloaded) */}
                 <Image
                     key={`next-${nextIndex}`}
-                    src={allImages[nextIndex].url}
-                    alt={allImages[nextIndex].title}
+                    src={getImageUrl(allImages[nextIndex].url)}
+                    alt={`Contact photo - ${allImages[nextIndex].title}`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover rounded-lg transition-all duration-1000 ease-in-out opacity-0"
                     priority
+                    quality={90}
+                    style={{ position: "absolute" }}
                 />
             </div>
         </div>

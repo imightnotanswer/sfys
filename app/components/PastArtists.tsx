@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
+import { getImageUrl } from '@/lib/sanity'
 
 interface PastArtist {
     _id: string
@@ -21,7 +22,7 @@ export function PastArtists({ artists }: { artists: PastArtist[] }) {
     }
 
     return (
-        <div className="py-16 -mt-20">
+        <div className="py-16 -mt-28">
             <h2 className="text-[min(8vw,4rem)] font-[var(--font-benditos)] tracking-wide text-center mb-16 whitespace-nowrap">
                 PAST SLUMBER-ERS
             </h2>
@@ -68,13 +69,17 @@ function ArtistCard({ artist, index }: { artist: PastArtist; index: number }) {
                     className="block group"
                 >
                     {artist.imageUrl && (
-                        <div className="relative aspect-square mb-4 max-w-[300px] mx-auto">
-                            <Image
-                                src={artist.imageUrl}
-                                alt={artist.name}
-                                fill
-                                className="object-cover"
-                            />
+                        <div className="relative aspect-square mb-4 max-w-[300px] mx-auto" style={{ position: "relative" }}>
+                            <div className="absolute inset-0" style={{ position: "absolute" }}>
+                                <Image
+                                    src={getImageUrl(artist.imageUrl)}
+                                    alt={artist.name}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+                                    style={{ position: "absolute" }}
+                                />
+                            </div>
                         </div>
                     )}
                     <span className="font-['Courier New'] font-bold text-base leading-[20px] text-[#231f20] group-hover:text-[#e43720] transition-colors">
@@ -84,13 +89,17 @@ function ArtistCard({ artist, index }: { artist: PastArtist; index: number }) {
             ) : (
                 <div className="block group">
                     {artist.imageUrl && (
-                        <div className="relative aspect-square mb-4 max-w-[300px] mx-auto">
-                            <Image
-                                src={artist.imageUrl}
-                                alt={artist.name}
-                                fill
-                                className="object-cover"
-                            />
+                        <div className="relative aspect-square mb-4 max-w-[300px] mx-auto" style={{ position: "relative" }}>
+                            <div className="absolute inset-0" style={{ position: "absolute" }}>
+                                <Image
+                                    src={getImageUrl(artist.imageUrl)}
+                                    alt={artist.name}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+                                    style={{ position: "absolute" }}
+                                />
+                            </div>
                         </div>
                     )}
                     <span className="font-['Courier New'] font-bold text-base leading-[20px] text-[#231f20] group-hover:text-[#e43720] transition-colors">

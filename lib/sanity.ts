@@ -41,6 +41,46 @@ interface AboutParagraph {
     isActive: boolean;
 }
 
+interface SanityImage {
+    asset: {
+        _ref: string;
+        _type: string;
+    };
+}
+
+interface SanityFlyer {
+    _id: string;
+    title: string;
+    image: SanityImage;
+    imageUrls?: SanityImage;
+}
+
+interface SanityContactPhoto {
+    _id: string;
+    title: string;
+    image: SanityImage;
+}
+
+interface SanityPastArtist {
+    _id: string;
+    name: string;
+    website?: string;
+    image: SanityImage;
+}
+
+interface SanityShow {
+    _id: string;
+    title: string;
+    date: string;
+    description: string;
+    secondDescription?: string;
+    spotifyLink?: string;
+    secondSpotifyLink?: string;
+    website?: string;
+    secondWebsite?: string;
+    images: SanityImage[];
+}
+
 // Create a client with CDN caching enabled
 export const client = createClient({
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -53,12 +93,37 @@ export const client = createClient({
 
 const builder = imageUrlBuilder(client);
 
-export function urlFor(source: any) {
-    return builder.image(source);
+export function urlFor(source: SanityImage | null) {
+    if (!source?.asset) return null;
+    return builder.image(source)
+        .auto('format')
+        .fit('max')
+        .width(1200)
+        .format('webp')
+        .quality(80);
 }
 
-export function urlForImage(source: any) {
-    return builder.image(source);
+export function urlForImage(source: SanityImage | null) {
+    if (!source?.asset) return null;
+    return builder.image(source)
+        .auto('format')
+        .fit('max')
+        .width(1200)
+        .format('webp')
+        .quality(80);
+}
+
+// Helper function to ensure URLs are properly formatted for next/image
+export function getImageUrl(url: string | null): string {
+    if (!url) return '/placeholder-image.jpg'; // Fallback image
+
+    // Check if the URL already has width/height/quality params for Sanity images
+    if (url.includes('cdn.sanity.io') && !url.includes('?')) {
+        // Add default image parameters if they're missing
+        return `${url}?w=1200&h=900&fit=max&auto=format&q=80`;
+    }
+
+    return url;
 }
 
 // Cache for shows data
@@ -79,31 +144,38 @@ export async function getShows() {
                 secondSpotifyLink,
                 website,
                 secondWebsite,
-                "imageUrls": images[].asset->url
+                images[] {
+                    asset->
+                }
             }
-        `
-        const shows = await client.fetch(query)
+        `;
+        const shows = await client.fetch<SanityShow[]>(query);
 
-        // Ensure each show has at least one image URL and handle arrays properly
-        const validShows = shows.map((show: Show) => ({
-            ...show,
-            imageUrls: Array.isArray(show.imageUrls) ? show.imageUrls.filter(Boolean) :
-                show.imageUrls ? [show.imageUrls] : []
-        }))
+        // Process the images using urlFor
+        const validShows = shows.map((show: SanityShow) => {
+            const imageUrls = show.images
+                ?.map(image => urlFor(image)?.url() ?? null)
+                .filter((url): url is string => url !== null);
+
+            return {
+                ...show,
+                imageUrls: imageUrls || []
+            };
+        });
 
         // Filter out past shows
-        const now = new Date()
-        now.setHours(0, 0, 0, 0) // Set to start of today
+        const now = new Date();
+        now.setHours(0, 0, 0, 0); // Set to start of today
 
         const futureShows = validShows.filter((show: Show) => {
-            const showDate = new Date(show.date)
-            showDate.setHours(0, 0, 0, 0) // Set to start of show day
-            return showDate >= now
-        })
+            const showDate = new Date(show.date);
+            showDate.setHours(0, 0, 0, 0); // Set to start of show day
+            return showDate >= now;
+        });
 
         return futureShows;
     } catch (error) {
-        console.error('Error fetching shows:', error)
+        console.error('Error fetching shows:', error);
         return [];
     }
 }
@@ -125,16 +197,21 @@ export async function getPastArtists() {
                 _id,
                 name,
                 website,
-                image
+                image {
+                    asset->
+                }
             }
         `;
-        const artists = await client.fetch(query);
+        const artists = await client.fetch<SanityPastArtist[]>(query);
 
         // Process the images using urlFor
-        const processedArtists = artists.map((artist: any) => ({
-            ...artist,
-            imageUrl: artist.image ? urlFor(artist.image).url() : null
-        }));
+        const processedArtists = artists.map((artist: SanityPastArtist) => {
+            const imageUrl = artist.image?.asset ? urlFor(artist.image)?.url() ?? null : null;
+            return {
+                ...artist,
+                imageUrl
+            };
+        });
 
         // Update cache
         pastArtistsCache = processedArtists;
@@ -157,18 +234,24 @@ export async function getFlyers() {
             *[_type == "homePageHeader"] {
                 _id,
                 title,
-                "imageUrls": [image.asset->url]
+                "imageUrls": image {
+                    asset->
+                }
             }
         `;
-        const flyers = await client.fetch(query);
+        const flyers = await client.fetch<SanityFlyer[]>(query);
 
-        // Process the images to ensure they're valid URLs
-        const processedFlyers = flyers.map((flyer: Flyer) => ({
-            ...flyer,
-            imageUrls: Array.isArray(flyer.imageUrls) ? flyer.imageUrls.filter(Boolean) : []
-        }));
+        // Process the images using the image URL builder
+        const processedFlyers = flyers.map((flyer: SanityFlyer) => {
+            const imageUrl = flyer.imageUrls?.asset ? urlFor(flyer.imageUrls)?.url() ?? null : null;
+            return {
+                _id: flyer._id,
+                title: flyer.title,
+                imageUrls: imageUrl ? [imageUrl] : []
+            };
+        });
 
-        return processedFlyers;
+        return processedFlyers.filter(flyer => flyer.imageUrls.length > 0);
     } catch (error) {
         console.error('Error fetching flyers:', error);
         return [];
@@ -181,23 +264,27 @@ let contactPhotosCacheTime: number = 0;
 
 export async function getContactPhotos() {
     try {
-        // Remove cache check to always fetch fresh data
         const query = `*[_type == "contactPhoto"] {
             _id,
             title,
-            "imageUrls": [image.asset->url]
+            image {
+                asset->
+            }
         } | order(_createdAt desc)`;
 
-        const photos = await client.fetch(query);
-        console.log('DEBUG - ALL contact photos:', JSON.stringify(photos, null, 2));
+        const photos = await client.fetch<SanityContactPhoto[]>(query);
 
-        // Process the images to ensure they're valid URLs
-        const processedPhotos = photos.map((photo: ContactPhoto) => ({
-            ...photo,
-            imageUrls: Array.isArray(photo.imageUrls) ? photo.imageUrls.filter(Boolean) : []
-        }));
+        // Process the images using urlForImage
+        const processedPhotos = photos.map((photo: SanityContactPhoto) => {
+            const imageUrl = photo.image?.asset ? urlForImage(photo.image)?.url() ?? null : null;
+            return {
+                _id: photo._id,
+                title: photo.title,
+                imageUrls: imageUrl ? [imageUrl] : []
+            };
+        });
 
-        return processedPhotos;
+        return processedPhotos.filter(photo => photo.imageUrls.length > 0);
     } catch (error) {
         console.error('Error fetching contact photos:', error);
         return [];

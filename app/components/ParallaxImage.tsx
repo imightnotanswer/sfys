@@ -40,7 +40,7 @@ export default function ParallaxImage() {
                 className="w-full will-change-transform"
                 style={{ transform: 'translateY(0)', transition: 'transform 16ms linear' }}
             >
-                <div className="relative aspect-[2/3] w-full max-w-md mx-auto">
+                <div className="relative aspect-[2/3] w-full max-w-md mx-auto" style={{ position: "relative" }}>
                     <Image
                         src="/Tourists_2022-24.jpg"
                         alt="TOURISTS venue"
@@ -48,6 +48,8 @@ export default function ParallaxImage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover rounded-lg"
                         priority
+                        quality={85}
+                        style={{ position: "absolute" }}
                     />
                 </div>
             </div>

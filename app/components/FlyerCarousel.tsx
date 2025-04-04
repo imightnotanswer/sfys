@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa'
+import { getImageUrl } from '@/lib/sanity'
 
 interface Flyer {
     _id: string
@@ -135,20 +136,23 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         <div className="w-full">
             <div className="flex flex-col items-center">
                 {currentFlyer?.title && (
-                    <h1 className="text-[clamp(3.25rem,5.5vw,4.5rem)] font-[var(--font-benditos)] tracking-wide text-center mb-6">
+                    <h1 className="text-[clamp(2rem,3.5vw,4.5rem)] md:text-[clamp(3.25rem,5.5vw,4.5rem)] font-[var(--font-benditos)] tracking-wide text-center mb-6">
                         {currentFlyer.title}
                     </h1>
                 )}
-                <div className="relative aspect-[3/4] w-full">
+                <div className="relative aspect-[3/4] w-full" style={{ position: "relative" }}>
                     {currentFlyer?.imageUrls?.[currentImageIndex] && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="relative w-full h-full flex items-center justify-center">
+                        <div className="absolute inset-0 flex items-center justify-center" style={{ position: "absolute" }}>
+                            <div className="relative w-full h-full flex items-center justify-center" style={{ position: "relative" }}>
                                 <Image
                                     ref={imageRef}
-                                    src={currentFlyer.imageUrls[currentImageIndex]}
+                                    src={getImageUrl(currentFlyer.imageUrls[currentImageIndex])}
                                     alt={currentFlyer.title}
                                     fill
                                     className="object-contain"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
+                                    quality={85}
+                                    style={{ position: "absolute" }}
                                 />
                                 {(currentFlyer.imageUrls.length > 1 || flyers.length > 1) && (
                                     <>

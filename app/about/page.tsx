@@ -34,11 +34,9 @@ export default async function About() {
             <section className="py-16 pb-16">
                 <div className="max-w-[1400px] mx-auto px-4 md:px-8">
                     <div className="flex flex-col items-center">
-                        <div className="w-full max-w-3xl">
-                            <div className="space-y-0">
-                                <AboutCarousel images={serializedImages} />
-                                <AboutContent paragraphs={paragraphs} />
-                            </div>
+                        <div className="w-full max-w-3xl mx-auto">
+                            <AboutCarousel images={serializedImages} />
+                            <AboutContent paragraphs={paragraphs} />
                         </div>
                     </div>
                 </div>
@@ -48,7 +46,7 @@ export default async function About() {
                 <section className="bg-[#ece8d9] text-[#231f20]">
                     <div className="max-w-[1400px] mx-auto px-4 md:px-8">
                         <div className="flex flex-col items-center">
-                            <div className="w-full">
+                            <div className="w-full max-w-5xl mx-auto">
                                 <PastArtists artists={validArtists} />
                             </div>
                         </div>

@@ -32,11 +32,13 @@ export default async function About() {
     return (
         <div className="min-h-screen bg-[#ece8d9] text-[#231f20]">
             <section className="py-16 pb-16">
-                <div className="editorial-layout">
-                    <div className="col-span-12 md:col-span-8 md:col-start-3 lg:col-span-6 lg:col-start-4">
-                        <div className="space-y-0">
-                            <AboutCarousel images={serializedImages} />
-                            <AboutContent paragraphs={paragraphs} />
+                <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+                    <div className="flex flex-col items-center">
+                        <div className="w-full max-w-3xl">
+                            <div className="space-y-0">
+                                <AboutCarousel images={serializedImages} />
+                                <AboutContent paragraphs={paragraphs} />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,9 +46,11 @@ export default async function About() {
 
             {validArtists && validArtists.length > 0 && (
                 <section className="bg-[#ece8d9] text-[#231f20]">
-                    <div className="editorial-layout">
-                        <div className="col-span-12">
-                            <PastArtists artists={validArtists} />
+                    <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+                        <div className="flex flex-col items-center">
+                            <div className="w-full">
+                                <PastArtists artists={validArtists} />
+                            </div>
                         </div>
                     </div>
                 </section>

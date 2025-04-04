@@ -24,10 +24,12 @@ export default async function Home() {
     return (
         <main className="min-h-screen">
             <section className="bg-[#ece8d9] text-[#231f20] py-12">
-                <div className="editorial-layout">
-                    <div className="col-span-12 flex flex-col gap-8">
-                        {flyers.length > 0 && <FlyerCarousel flyers={flyers} />}
-                        <div className="max-w-2xl mx-auto w-full">
+                <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+                    <div className="flex flex-col items-center gap-8">
+                        <div className="w-full max-w-[600px]">
+                            {flyers.length > 0 && <FlyerCarousel flyers={flyers} />}
+                        </div>
+                        <div className="w-full max-w-2xl">
                             <AnimatedTitle />
                             <div className="-space-y-2">
                                 {shows.length > 0 ? (

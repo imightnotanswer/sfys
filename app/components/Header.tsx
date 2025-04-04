@@ -73,7 +73,7 @@ export default function Header() {
                         />
                     </a>
                     <Link href="/" className="block w-full">
-                        <h1 className="text-[clamp(36px,9vw,70px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center whitespace-nowrap">
+                        <h1 className="text-[clamp(40px,10vw,76px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center whitespace-nowrap">
                             SING FOR YOUR SLUMBER
                         </h1>
                     </Link>

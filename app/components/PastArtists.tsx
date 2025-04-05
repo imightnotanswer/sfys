@@ -22,7 +22,7 @@ export function PastArtists({ artists }: { artists: PastArtist[] }) {
     }
 
     return (
-        <div className="py-16 -mt-40">
+        <div className="py-16 -mt-28">
             <h2 className="text-[min(8vw,4rem)] font-[var(--font-benditos)] tracking-wide text-center mb-16 whitespace-nowrap">
                 PAST SLUMBER-ERS
             </h2>

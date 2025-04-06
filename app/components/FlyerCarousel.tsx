@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react'
 import Image from 'next/image'
-import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { getImageUrl } from '@/lib/sanity'
 
 interface Flyer {
@@ -15,122 +15,126 @@ interface FlyerCarouselProps {
     flyers: Flyer[]
 }
 
-export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
-    const [currentFlyerIndex, setCurrentFlyerIndex] = useState(0)
-    const [currentImageIndex, setCurrentImageIndex] = useState(0)
-    const [isPlaying, setIsPlaying] = useState(true)
-    const [buttonColor, setButtonColor] = useState('#ece8d9')
-    const imageRef = useRef<HTMLImageElement>(null)
-    const buttonRef = useRef<HTMLButtonElement>(null)
+// Custom hook for carousel rotation
+function useCarouselRotation(
+    currentImageIndex: number,
+    currentFlyerIndex: number,
+    totalImages: number,
+    totalFlyers: number,
+    onRotate: (nextFlyerIndex: number, nextImageIndex: number) => void
+) {
     const timerRef = useRef<NodeJS.Timeout>()
 
-    if (!flyers || flyers.length === 0) return null
-
-    const currentFlyer = flyers[currentFlyerIndex]
-
-    const resetTimer = () => {
-        if (!isPlaying) return;
-        if (timerRef.current) {
-            clearInterval(timerRef.current)
-        }
-        timerRef.current = setInterval(() => {
-            if (currentImageIndex === currentFlyer.imageUrls.length - 1) {
-                setCurrentFlyerIndex((prev) => (prev + 1) % flyers.length)
-                setCurrentImageIndex(0)
+    useEffect(() => {
+        const rotate = () => {
+            if (currentImageIndex === totalImages - 1) {
+                onRotate((currentFlyerIndex + 1) % totalFlyers, 0)
             } else {
-                setCurrentImageIndex((prev) => prev + 1)
-            }
-        }, 8000)
-    }
-
-    // Function to check if a point is over a transparent area
-    const checkTransparency = (x: number, y: number) => {
-        if (!imageRef.current || !buttonRef.current) return
-
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')
-        if (!ctx) return
-
-        // Set canvas size to match image
-        canvas.width = imageRef.current.naturalWidth
-        canvas.height = imageRef.current.naturalHeight
-
-        // Draw the image
-        ctx.drawImage(imageRef.current, 0, 0)
-
-        // Get the pixel data at the button position
-        const pixel = ctx.getImageData(x, y, 1, 1).data
-        const alpha = pixel[3]
-
-        // If alpha is less than 128 (semi-transparent), use dark color
-        setButtonColor(alpha < 128 ? '#231f20' : '#ece8d9')
-    }
-
-    // Update button color when image loads or changes
-    useEffect(() => {
-        if (imageRef.current && buttonRef.current) {
-            const updateButtonColor = () => {
-                const buttonRect = buttonRef.current?.getBoundingClientRect()
-                const imageRect = imageRef.current?.getBoundingClientRect()
-
-                if (buttonRect && imageRect) {
-                    // Calculate relative position
-                    const x = buttonRect.left - imageRect.left
-                    const y = buttonRect.top - imageRect.top
-
-                    // Scale coordinates to match image dimensions
-                    const scaledX = (x / imageRect.width) * imageRef.current!.naturalWidth
-                    const scaledY = (y / imageRect.height) * imageRef.current!.naturalHeight
-
-                    checkTransparency(scaledX, scaledY)
-                }
-            }
-
-            // Update on image load and window resize
-            imageRef.current.addEventListener('load', updateButtonColor)
-            window.addEventListener('resize', updateButtonColor)
-
-            return () => {
-                imageRef.current?.removeEventListener('load', updateButtonColor)
-                window.removeEventListener('resize', updateButtonColor)
+                onRotate(currentFlyerIndex, currentImageIndex + 1)
             }
         }
-    }, [currentImageIndex])
 
-    // Auto-rotate images every 8 seconds
-    useEffect(() => {
-        if (!isPlaying) return;
-        resetTimer()
+        timerRef.current = setInterval(rotate, 8000)
+
         return () => {
             if (timerRef.current) {
                 clearInterval(timerRef.current)
             }
         }
-    }, [currentFlyer, currentImageIndex, flyers.length, isPlaying])
+    }, [currentImageIndex, currentFlyerIndex, totalImages, totalFlyers, onRotate])
 
-    const nextImage = () => {
-        if (currentImageIndex === currentFlyer.imageUrls.length - 1) {
-            setCurrentFlyerIndex((prev) => (prev + 1) % flyers.length)
-            setCurrentImageIndex(0)
-        } else {
-            setCurrentImageIndex((prev) => prev + 1)
-        }
-        resetTimer()
-    }
+    return timerRef
+}
 
-    const prevImage = () => {
-        if (currentImageIndex === 0) {
-            setCurrentFlyerIndex((prev) => (prev - 1 + flyers.length) % flyers.length)
-            setCurrentImageIndex(flyers[(currentFlyerIndex - 1 + flyers.length) % flyers.length].imageUrls.length - 1)
-        } else {
-            setCurrentImageIndex((prev) => prev - 1)
-        }
-        resetTimer()
-    }
+// Memoized navigation buttons component
+const NavigationButtons = memo(function NavigationButtons({
+    onPrev,
+    onNext
+}: {
+    onPrev: () => void
+    onNext: () => void
+}) {
+    return (
+        <>
+            <button
+                onClick={onPrev}
+                className="absolute left-[5%] top-1/2 -translate-y-1/2 text-[#ece8d9] hover:text-[#231f20] transition-all active:scale-90 active:-translate-x-1 transform-gpu"
+                aria-label="Previous image"
+            >
+                <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button
+                onClick={onNext}
+                className="absolute right-[5%] top-1/2 -translate-y-1/2 text-[#ece8d9] hover:text-[#231f20] transition-all active:scale-90 active:translate-x-1 transform-gpu"
+                aria-label="Next image"
+            >
+                <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </>
+    )
+})
 
-    const togglePlayPause = () => {
-        setIsPlaying(!isPlaying)
-    }
+export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
+    const [state, setState] = useState({
+        flyerIndex: 0,
+        imageIndex: 0
+    })
+    const imageRef = useRef<HTMLImageElement>(null)
+
+    if (!flyers || flyers.length === 0) return null
+
+    const currentFlyer = useMemo(() => flyers[state.flyerIndex], [flyers, state.flyerIndex])
+    const showNavigation = useMemo(() =>
+        currentFlyer.imageUrls.length > 1 || flyers.length > 1,
+        [currentFlyer.imageUrls.length, flyers.length]
+    )
+
+    const handleRotate = useCallback((nextFlyerIndex: number, nextImageIndex: number) => {
+        setState({ flyerIndex: nextFlyerIndex, imageIndex: nextImageIndex })
+    }, [])
+
+    useCarouselRotation(
+        state.imageIndex,
+        state.flyerIndex,
+        currentFlyer.imageUrls.length,
+        flyers.length,
+        handleRotate
+    )
+
+    const handleNext = useCallback(() => {
+        setState(prev => {
+            if (prev.imageIndex === currentFlyer.imageUrls.length - 1) {
+                return {
+                    flyerIndex: (prev.flyerIndex + 1) % flyers.length,
+                    imageIndex: 0
+                }
+            }
+            return {
+                ...prev,
+                imageIndex: prev.imageIndex + 1
+            }
+        })
+    }, [currentFlyer.imageUrls.length, flyers.length])
+
+    const handlePrev = useCallback(() => {
+        setState(prev => {
+            if (prev.imageIndex === 0) {
+                const newFlyerIndex = (prev.flyerIndex - 1 + flyers.length) % flyers.length
+                return {
+                    flyerIndex: newFlyerIndex,
+                    imageIndex: flyers[newFlyerIndex].imageUrls.length - 1
+                }
+            }
+            return {
+                ...prev,
+                imageIndex: prev.imageIndex - 1
+            }
+        })
+    }, [flyers])
 
     return (
         <div className="w-full">
@@ -140,53 +144,27 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
                         {currentFlyer.title}
                     </h1>
                 )}
-                <div className="relative aspect-[3/4] w-full" style={{ position: "relative" }}>
-                    {currentFlyer?.imageUrls?.[currentImageIndex] && (
-                        <div className="absolute inset-0 flex items-center justify-center" style={{ position: "absolute" }}>
-                            <div className="relative w-full h-full flex items-center justify-center" style={{ position: "relative" }}>
-                                <Image
-                                    ref={imageRef}
-                                    src={getImageUrl(currentFlyer.imageUrls[currentImageIndex])}
-                                    alt={currentFlyer.title}
-                                    fill
-                                    className="object-contain"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
-                                    quality={85}
-                                    style={{ position: "absolute" }}
+                <div className="relative aspect-[3/4] w-full max-w-4xl mx-auto">
+                    {currentFlyer?.imageUrls?.[state.imageIndex] && (
+                        <>
+                            <Image
+                                ref={imageRef}
+                                src={currentFlyer.imageUrls[state.imageIndex]}
+                                alt={currentFlyer.title}
+                                fill
+                                className="object-contain will-change-transform"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
+                                quality={85}
+                                priority={state.flyerIndex === 0 && state.imageIndex === 0}
+                                loading={state.flyerIndex === 0 && state.imageIndex === 0 ? 'eager' : 'lazy'}
+                            />
+                            {showNavigation && (
+                                <NavigationButtons
+                                    onPrev={handlePrev}
+                                    onNext={handleNext}
                                 />
-                                {(currentFlyer.imageUrls.length > 1 || flyers.length > 1) && (
-                                    <>
-                                        <button
-                                            onClick={prevImage}
-                                            className="absolute left-[5%] top-1/2 -translate-y-1/2 text-[#ece8d9] hover:text-[#231f20] transition-all active:scale-90 active:-translate-x-1"
-                                            aria-label="Previous image"
-                                        >
-                                            <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-                                            </svg>
-                                        </button>
-                                        <button
-                                            onClick={nextImage}
-                                            className="absolute right-[5%] top-1/2 -translate-y-1/2 text-[#ece8d9] hover:text-[#231f20] transition-all active:scale-90 active:translate-x-1"
-                                            aria-label="Next image"
-                                        >
-                                            <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </button>
-                                        <button
-                                            ref={buttonRef}
-                                            onClick={togglePlayPause}
-                                            className="absolute left-4 bottom-[15%] p-2 transition-colors z-10"
-                                            style={{ color: buttonColor }}
-                                            aria-label={isPlaying ? "Pause auto-rotation" : "Play auto-rotation"}
-                                        >
-                                            {isPlaying ? <FaPause size={24} /> : <FaPlay size={24} />}
-                                        </button>
-                                    </>
-                                )}
-                            </div>
-                        </div>
+                            )}
+                        </>
                     )}
                 </div>
             </div>

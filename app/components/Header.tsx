@@ -79,9 +79,9 @@ export default function Header() {
                                 sizes="180px"
                             />
                         </a>
-                        <div className="w-full overflow-hidden">
+                        <div className="w-full overflow-visible">
                             <Link href="/" className="block w-full">
-                                <h1 className="text-[clamp(36px,6vw,52px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors whitespace-nowrap text-center px-2">
+                                <h1 className="text-[clamp(42px,8vw,72px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors whitespace-nowrap text-center px-4 -mx-4">
                                     SING FOR YOUR SLUMBER
                                 </h1>
                             </Link>

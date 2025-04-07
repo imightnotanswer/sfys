@@ -84,9 +84,9 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         imageIndex: 0
     })
     const [containerStyle, setContainerStyle] = useState({
-        minHeight: '400px',
-        maxHeight: '800px',
-        height: '70vh'
+        minHeight: '500px',
+        maxHeight: '1000px',
+        height: '80vh'
     })
     const imageRef = useRef<HTMLImageElement>(null)
 
@@ -103,16 +103,16 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         if (aspectRatio > 1) {
             // For wider/shorter images
             setContainerStyle({
-                minHeight: '300px',
-                maxHeight: '500px',
-                height: '50vh'
+                minHeight: '400px',
+                maxHeight: '700px',
+                height: '60vh'
             })
         } else {
             // For taller images
             setContainerStyle({
-                minHeight: '400px',
-                maxHeight: '800px',
-                height: '70vh'
+                minHeight: '500px',
+                maxHeight: '1000px',
+                height: '80vh'
             })
         }
     }, [])
@@ -161,7 +161,7 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
     }, [flyers])
 
     return (
-        <div className="w-full max-w-[600px] mx-auto">
+        <div className="w-full max-w-[800px] mx-auto">
             <div className="flex flex-col items-center">
                 {currentFlyer?.title && (
                     <h1 className="text-[clamp(2.5rem,4vw,5rem)] md:text-[clamp(3.25rem,5.5vw,4.5rem)] font-[var(--font-benditos)] tracking-wide text-center mb-6">

@@ -37,7 +37,7 @@ export function PastArtists({ artists }: { artists: PastArtist[] }) {
                         onClick={loadMore}
                         className="font-['Courier New'] text-[14px] px-8 py-4 border-2 border-[#231f20] hover:bg-[#231f20] hover:text-[#ece8d9] transition-colors"
                     >
-                        LOAD MORE ARTISTS
+                        SEE MORE
                     </button>
                 </div>
             )}

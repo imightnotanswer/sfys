@@ -32,18 +32,6 @@ export default defineType({
             description: 'An optional secondary description for the show'
         }),
         defineField({
-            name: 'spotifyLink',
-            title: 'Spotify Link',
-            type: 'url',
-            description: 'Link to Spotify for the artist or show'
-        }),
-        defineField({
-            name: 'secondSpotifyLink',
-            title: 'Second Spotify Link',
-            type: 'url',
-            description: 'Optional second link to Spotify for another artist or related show'
-        }),
-        defineField({
             name: 'website',
             title: 'Artist Website',
             type: 'url',

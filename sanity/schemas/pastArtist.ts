@@ -12,12 +12,6 @@ export default defineType({
             validation: rule => rule.required()
         }),
         defineField({
-            name: 'date',
-            title: 'Performance Date',
-            type: 'date',
-            validation: rule => rule.required()
-        }),
-        defineField({
             name: 'link',
             title: 'Artist Website',
             type: 'url'
@@ -34,7 +28,6 @@ export default defineType({
     preview: {
         select: {
             title: 'name',
-            date: 'date',
             media: 'image'
         }
     }

@@ -83,6 +83,11 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         flyerIndex: 0,
         imageIndex: 0
     })
+    const [containerStyle, setContainerStyle] = useState({
+        minHeight: '400px',
+        maxHeight: '800px',
+        height: '70vh'
+    })
     const imageRef = useRef<HTMLImageElement>(null)
 
     if (!flyers || flyers.length === 0) return null
@@ -92,6 +97,25 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         currentFlyer.imageUrls.length > 1 || flyers.length > 1,
         [currentFlyer.imageUrls.length, flyers.length]
     )
+
+    const handleImageLoad = useCallback((img: HTMLImageElement) => {
+        const aspectRatio = img.naturalWidth / img.naturalHeight
+        if (aspectRatio > 1) {
+            // For wider/shorter images
+            setContainerStyle({
+                minHeight: '300px',
+                maxHeight: '500px',
+                height: '50vh'
+            })
+        } else {
+            // For taller images
+            setContainerStyle({
+                minHeight: '400px',
+                maxHeight: '800px',
+                height: '70vh'
+            })
+        }
+    }, [])
 
     const handleRotate = useCallback((nextFlyerIndex: number, nextImageIndex: number) => {
         setState({ flyerIndex: nextFlyerIndex, imageIndex: nextImageIndex })
@@ -137,14 +161,14 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
     }, [flyers])
 
     return (
-        <div className="w-full">
+        <div className="w-full max-w-[600px] mx-auto">
             <div className="flex flex-col items-center">
                 {currentFlyer?.title && (
                     <h1 className="text-[clamp(2.5rem,4vw,5rem)] md:text-[clamp(3.25rem,5.5vw,4.5rem)] font-[var(--font-benditos)] tracking-wide text-center mb-6">
                         {currentFlyer.title}
                     </h1>
                 )}
-                <div className="relative aspect-[3/4] w-full max-w-4xl mx-auto">
+                <div className="relative w-full" style={containerStyle}>
                     {currentFlyer?.imageUrls?.[state.imageIndex] && (
                         <>
                             <Image
@@ -152,11 +176,12 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
                                 src={currentFlyer.imageUrls[state.imageIndex]}
                                 alt={currentFlyer.title}
                                 fill
-                                className="object-contain will-change-transform"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
+                                className="object-contain"
+                                sizes="(max-width: 768px) 100vw, 600px"
                                 quality={85}
                                 priority={state.flyerIndex === 0 && state.imageIndex === 0}
                                 loading={state.flyerIndex === 0 && state.imageIndex === 0 ? 'eager' : 'lazy'}
+                                onLoadingComplete={handleImageLoad}
                             />
                             {showNavigation && (
                                 <NavigationButtons

@@ -19,4 +19,8 @@ export default defineConfig({
     schema: {
         types: schema.types,
     },
+    cors: {
+        origin: ['https://www.singforyourslumber.com'],
+        credentials: true,
+    }
 }) 

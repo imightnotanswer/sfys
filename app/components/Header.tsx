@@ -27,22 +27,28 @@ export default function Header() {
             </div> */}
 
             {/* Main header content */}
-            <div className="pt-4 w-full overflow-visible">
-                {/* Desktop and Tablet Layout */}
-                <div className="hidden sm:flex items-center justify-between gap-8 px-4 md:px-8 max-w-[2000px] mx-auto">
-                    {/* Title */}
-                    <Link href="/" className="block">
-                        <h1 className="text-[clamp(42px,6vw,96px)] leading-[1.2] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors whitespace-nowrap">
-                            SING FOR YOUR SLUMBER
-                        </h1>
-                    </Link>
+            <div className="pt-4 w-full">
+                {/* Desktop Layout - Only hidden when content would overlap */}
+                <div className="hidden md:grid grid-cols-[minmax(0,1fr)_auto] items-start px-4 md:px-8 w-full">
+                    {/* Title and Navigation Column */}
+                    <div className="flex flex-col min-w-0">
+                        <Link href="/" className="block">
+                            <h1 className="text-[clamp(52px,8vw,96px)] leading-[1.2] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors whitespace-nowrap pr-8">
+                                SING FOR YOUR SLUMBER
+                            </h1>
+                        </Link>
+                        {/* Navigation directly under title */}
+                        <div className="mt-2">
+                            <Navigation variant="desktop" />
+                        </div>
+                    </div>
 
                     {/* Logo */}
                     <a
                         href="http://touristswelcome.com/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group shrink-0"
+                        className="group flex-shrink-0"
                     >
                         <Image
                             src="/radio-logo.png"
@@ -55,33 +61,35 @@ export default function Header() {
                     </a>
                 </div>
 
-                {/* Mobile Layout */}
-                <div className="sm:hidden flex flex-col items-center justify-center w-full px-6">
-                    <a
-                        href="http://touristswelcome.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group mb-6"
-                    >
-                        <Image
-                            src="/radio-logo.png"
-                            alt="TOURISTS Radio Logo"
-                            width={220}
-                            height={220}
-                            className="object-contain transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
-                            sizes="220px"
-                        />
-                    </a>
-                    <Link href="/" className="block w-full">
-                        <h1 className="text-[clamp(40px,10vw,76px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center whitespace-nowrap">
-                            SING FOR YOUR SLUMBER
-                        </h1>
-                    </Link>
+                {/* Mobile Layout - Only shown when content would overlap */}
+                <div className="md:hidden w-full">
+                    <div className="flex flex-col items-center px-4">
+                        <a
+                            href="http://touristswelcome.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group mb-4 w-full max-w-[180px]"
+                        >
+                            <Image
+                                src="/radio-logo.png"
+                                alt="TOURISTS Radio Logo"
+                                width={180}
+                                height={180}
+                                className="object-contain transition-all duration-200 group-hover:[filter:brightness(0)_saturate(100%)_invert(36%)_sepia(97%)_saturate(7025%)_hue-rotate(353deg)_brightness(98%)_contrast(89%)]"
+                                sizes="180px"
+                            />
+                        </a>
+                        <div className="w-full overflow-hidden">
+                            <Link href="/" className="block w-full">
+                                <h1 className="text-[clamp(36px,6vw,52px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors whitespace-nowrap text-center px-2">
+                                    SING FOR YOUR SLUMBER
+                                </h1>
+                            </Link>
+                        </div>
+                        <Navigation variant="mobile" />
+                    </div>
                 </div>
             </div>
-
-            {/* Navigation */}
-            <Navigation />
         </header>
     )
 } 

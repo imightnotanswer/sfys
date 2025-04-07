@@ -196,7 +196,7 @@ export async function getPastArtists() {
             *[_type == "pastArtist"] | order(lower(name) asc) {
                 _id,
                 name,
-                website,
+                "website": link,
                 image {
                     asset->
                 }

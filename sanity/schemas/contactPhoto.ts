@@ -6,11 +6,6 @@ export default defineType({
     type: 'document',
     fields: [
         defineField({
-            name: 'title',
-            title: 'Title',
-            type: 'string'
-        }),
-        defineField({
             name: 'image',
             title: 'Photo',
             type: 'image',
@@ -18,16 +13,10 @@ export default defineType({
                 hotspot: true
             },
             validation: rule => rule.required()
-        }),
-        defineField({
-            name: 'description',
-            title: 'Description',
-            type: 'text'
         })
     ],
     preview: {
         select: {
-            title: 'title',
             media: 'image'
         }
     }

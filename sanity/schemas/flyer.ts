@@ -19,17 +19,6 @@ export default defineType({
                 hotspot: true
             },
             validation: rule => rule.required()
-        }),
-        defineField({
-            name: 'show',
-            title: 'Associated Show',
-            type: 'reference',
-            to: [{ type: 'upcomingShows' }]
-        }),
-        defineField({
-            name: 'description',
-            title: 'Description',
-            type: 'text'
         })
     ],
     preview: {

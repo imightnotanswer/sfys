@@ -7,7 +7,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "export-content": "node scripts/export-content.js"
+        "export-content": "node scripts/export-content.js",
+        "migrate-websites": "node scripts/migrate-website-to-link.js"
     },
     "dependencies": {
         "@heroicons/react": "^2.2.0",

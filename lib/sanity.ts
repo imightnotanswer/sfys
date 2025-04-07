@@ -251,7 +251,7 @@ export async function getFlyers() {
             };
         });
 
-        return processedFlyers.filter(flyer => flyer.imageUrls.length > 0);
+        return processedFlyers;
     } catch (error) {
         console.error('Error fetching flyers:', error);
         return [];

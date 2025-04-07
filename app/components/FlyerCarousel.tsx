@@ -93,10 +93,10 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
     if (!flyers || flyers.length === 0) return null
 
     const currentFlyer = useMemo(() => flyers[state.flyerIndex], [flyers, state.flyerIndex])
-    const showNavigation = useMemo(() =>
-        currentFlyer.imageUrls.length > 1 || flyers.length > 1,
-        [currentFlyer.imageUrls.length, flyers.length]
-    )
+    const showNavigation = useMemo(() => {
+        const totalImages = currentFlyer.imageUrls?.length || 0;
+        return totalImages > 1 || flyers.length > 1;
+    }, [currentFlyer.imageUrls?.length, flyers.length])
 
     const handleImageLoad = useCallback((img: HTMLImageElement) => {
         const aspectRatio = img.naturalWidth / img.naturalHeight
@@ -121,17 +121,21 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
         setState({ flyerIndex: nextFlyerIndex, imageIndex: nextImageIndex })
     }, [])
 
-    useCarouselRotation(
-        state.imageIndex,
-        state.flyerIndex,
-        currentFlyer.imageUrls.length,
-        flyers.length,
-        handleRotate
-    )
+    // Only use carousel rotation if there are multiple items to rotate through
+    if (showNavigation) {
+        useCarouselRotation(
+            state.imageIndex,
+            state.flyerIndex,
+            currentFlyer.imageUrls?.length || 0,
+            flyers.length,
+            handleRotate
+        )
+    }
 
     const handleNext = useCallback(() => {
         setState(prev => {
-            if (prev.imageIndex === currentFlyer.imageUrls.length - 1) {
+            const currentImageUrls = flyers[prev.flyerIndex].imageUrls || [];
+            if (currentImageUrls.length === 0 || prev.imageIndex === currentImageUrls.length - 1) {
                 return {
                     flyerIndex: (prev.flyerIndex + 1) % flyers.length,
                     imageIndex: 0
@@ -142,15 +146,16 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
                 imageIndex: prev.imageIndex + 1
             }
         })
-    }, [currentFlyer.imageUrls.length, flyers.length])
+    }, [flyers])
 
     const handlePrev = useCallback(() => {
         setState(prev => {
             if (prev.imageIndex === 0) {
                 const newFlyerIndex = (prev.flyerIndex - 1 + flyers.length) % flyers.length
+                const newFlyerImageUrls = flyers[newFlyerIndex].imageUrls || [];
                 return {
                     flyerIndex: newFlyerIndex,
-                    imageIndex: flyers[newFlyerIndex].imageUrls.length - 1
+                    imageIndex: Math.max(0, newFlyerImageUrls.length - 1)
                 }
             }
             return {
@@ -168,30 +173,28 @@ export function FlyerCarousel({ flyers }: FlyerCarouselProps) {
                         {currentFlyer.title}
                     </h1>
                 )}
-                <div className="relative w-full" style={containerStyle}>
-                    {currentFlyer?.imageUrls?.[state.imageIndex] && (
-                        <>
-                            <Image
-                                ref={imageRef}
-                                src={currentFlyer.imageUrls[state.imageIndex]}
-                                alt={currentFlyer.title}
-                                fill
-                                className="object-contain"
-                                sizes="(max-width: 768px) 100vw, 600px"
-                                quality={85}
-                                priority={state.flyerIndex === 0 && state.imageIndex === 0}
-                                loading={state.flyerIndex === 0 && state.imageIndex === 0 ? 'eager' : 'lazy'}
-                                onLoadingComplete={handleImageLoad}
+                {currentFlyer?.imageUrls?.length > 0 && (
+                    <div className="relative w-full" style={containerStyle}>
+                        <Image
+                            ref={imageRef}
+                            src={currentFlyer.imageUrls[state.imageIndex]}
+                            alt={currentFlyer.title || 'Flyer image'}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, 600px"
+                            quality={85}
+                            priority={state.flyerIndex === 0 && state.imageIndex === 0}
+                            loading={state.flyerIndex === 0 && state.imageIndex === 0 ? 'eager' : 'lazy'}
+                            onLoadingComplete={handleImageLoad}
+                        />
+                        {showNavigation && (
+                            <NavigationButtons
+                                onPrev={handlePrev}
+                                onNext={handleNext}
                             />
-                            {showNavigation && (
-                                <NavigationButtons
-                                    onPrev={handlePrev}
-                                    onNext={handleNext}
-                                />
-                            )}
-                        </>
-                    )}
-                </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     )

@@ -89,7 +89,7 @@ export default function RootLayout({
                     <img
                         src="/bose.png"
                         alt="Powered by Bose"
-                        className="w-full max-w-[150px] md:max-w-[200px] lg:max-w-[250px] px-4"
+                        className="w-full min-w-[200px] max-w-[250px] md:max-w-[300px] lg:max-w-[350px] px-4"
                     />
                     <div className="flex items-center gap-6 mt-4">
                         <a

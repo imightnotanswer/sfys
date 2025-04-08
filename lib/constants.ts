@@ -1,0 +1,1 @@
+export const DEFAULT_CONTACT_IMAGE = '/Tourists_2022-24.jpg' 

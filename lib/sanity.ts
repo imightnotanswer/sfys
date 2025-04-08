@@ -341,4 +341,14 @@ export async function getTopBannerText() {
         console.error('Error fetching top banner text:', error)
         return "Be in the know about upcoming shows."
     }
+}
+
+export async function getContactContent() {
+    const query = `*[_type == "contactContent" && isActive == true][0]{
+        title,
+        content,
+        email
+    }`
+
+    return await client.fetch(query)
 } 

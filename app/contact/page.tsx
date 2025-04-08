@@ -1,9 +1,7 @@
-import React from 'react';
-import { ContactPhotoCarousel } from '../components/ContactPhotoCarousel';
-import { ShakeText } from '../components/ShakeText';
-import { getContactPhotos } from '@/lib/sanity';
-
-const DEFAULT_CONTACT_IMAGE = '/Tourists_2022-24.jpg'; // Path to the original contact image
+import { getContactPhotos, getContactContent } from '@/lib/sanity'
+import { ContactPhotoCarousel } from '@/app/components/ContactPhotoCarousel'
+import { ShakeText } from '@/app/components/ShakeText'
+import { DEFAULT_CONTACT_IMAGE } from '@/lib/constants'
 
 // Force dynamic rendering and no caching
 export const dynamic = 'force-dynamic'
@@ -11,7 +9,15 @@ export const revalidate = 0
 
 export default async function Contact() {
     const contactPhotos = await getContactPhotos();
-    console.log('Contact Photos:', contactPhotos); // Debug log
+    const contactContent = await getContactContent();
+    const defaultContent = {
+        title: "Let's Talk",
+        content: "If you are an artist interested in performing at TOURISTS, please email",
+        email: "eric@touristswelcome.com"
+    };
+
+    // Use fallback content if no active content is found
+    const { title, content, email } = contactContent || defaultContent;
 
     return (
         <div className="min-h-screen bg-[#ece8d9] text-[#231f20]">
@@ -21,11 +27,13 @@ export default async function Contact() {
                         <div className="w-full max-w-5xl">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-12">
                                 <div className="flex flex-col items-center md:items-start">
-                                    <ShakeText className="font-[var(--font-dumpling)] text-[min(8vw,4rem)]">Let&apos;s Talk</ShakeText>
+                                    <ShakeText className="font-[var(--font-dumpling)] text-[min(8vw,4rem)]">
+                                        {title}
+                                    </ShakeText>
                                     <p className="text-base leading-relaxed font-['Courier New'] font-bold text-center md:text-left mt-4">
-                                        If you are an artist interested in performing at TOURISTS, please email{' '}
-                                        <a href="mailto:eric@touristswelcome.com" className="hover:text-[#e43720] transition-colors">
-                                            eric@touristswelcome.com
+                                        {content}{' '}
+                                        <a href={`mailto:${email}`} className="hover:text-[#e43720] transition-colors">
+                                            {email}
                                         </a>
                                     </p>
                                 </div>
@@ -44,5 +52,5 @@ export default async function Contact() {
                 </div>
             </section>
         </div>
-    );
+    )
 } 

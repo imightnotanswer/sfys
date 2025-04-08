@@ -81,7 +81,7 @@ export default function Header() {
                         </a>
                         <div className="w-full overflow-visible">
                             <Link href="/" className="block w-full">
-                                <h1 className="text-[clamp(32px,6vw,72px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center px-2">
+                                <h1 className="text-[clamp(38px,7vw,72px)] leading-[1.1] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center px-2">
                                     SING FOR YOUR SLUMBER
                                 </h1>
                             </Link>

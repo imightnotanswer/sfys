@@ -26,9 +26,9 @@ export default async function Home() {
 
     return (
         <main className="min-h-screen">
-            <section className="bg-[#ece8d9] text-[#231f20] py-12">
+            <section className="bg-[#ece8d9] text-[#231f20] py-12 galaxy-fold-section">
                 <div className="max-w-[1400px] mx-auto px-4 md:px-8">
-                    <div className={`flex flex-col items-center ${hasContent ? 'gap-8' : 'gap-4'}`}>
+                    <div className={`flex flex-col items-center ${hasContent ? 'gap-8 galaxy-fold-adjust' : 'gap-4'}`}>
                         {hasContent && (
                             <div className="w-full max-w-[800px]">
                                 <FlyerCarousel flyers={flyers} />

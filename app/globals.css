@@ -181,3 +181,16 @@ h3 {
         font-weight: 300;
     }
 }
+
+@media screen and (width: 344px) and (height: 882px) {
+    .galaxy-fold-adjust {
+        gap: 0rem !important;
+        margin-top: -3rem !important;
+        margin-bottom: -3rem !important;
+    }
+
+    .galaxy-fold-section {
+        padding-top: -3rem !important;
+        padding-bottom: -3rem !important;
+    }
+}

@@ -139,20 +139,18 @@ export function ShowCard({ show }: { show: Show }) {
             )}
             <div className="p-6 pt-0 pb-4">
                 <div className="flex flex-col items-center">
-                    <div className="flex flex-col items-center relative w-full">
-                        <div className="flex flex-col items-center">
-                            <h3 className="font-[var(--font-dumpling)] text-[clamp(1.75rem,4vw,2.25rem)] text-center">
-                                {hasSupporting ? (
-                                    <>
-                                        {titleParts[0].toUpperCase()}
-                                        <br />
-                                        <span className="block">W/ {titleParts[1].toUpperCase()}</span>
-                                    </>
-                                ) : (
-                                    show.title.toUpperCase()
-                                )}
-                            </h3>
-                        </div>
+                    <div className="relative w-full flex justify-center">
+                        <h3 className="font-[var(--font-dumpling)] text-[clamp(1.75rem,4vw,2.25rem)] text-center max-w-[calc(100%-3rem)]">
+                            {hasSupporting ? (
+                                <>
+                                    {titleParts[0].toUpperCase()}
+                                    <br />
+                                    <span className="block">W/ {titleParts[1].toUpperCase()}</span>
+                                </>
+                            ) : (
+                                show.title.toUpperCase()
+                            )}
+                        </h3>
                         <button
                             onClick={handleExpand}
                             className="absolute right-0 top-1/2 -translate-y-1/2 hover:text-[#e43720] transition-colors duration-200"

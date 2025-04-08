@@ -45,7 +45,7 @@ export default function Header() {
 
                     {/* Logo */}
                     <a
-                        href="http://touristswelcome.com/"
+                        href="http://singforyourslumber.com/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="group flex-shrink-0"
@@ -65,7 +65,7 @@ export default function Header() {
                 <div className="md:hidden w-full">
                     <div className="flex flex-col items-center px-4">
                         <a
-                            href="http://touristswelcome.com/"
+                            href="http://singforyourslumber.com/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group mb-4 w-full max-w-[180px]"

@@ -33,7 +33,7 @@ export default function Header() {
                     {/* Title and Navigation Column */}
                     <div className="flex flex-col min-w-0">
                         <Link href="/" className="block">
-                            <h1 className="text-[clamp(52px,8vw,96px)] leading-[1.2] font-[RideSlow] tracking-tight text-[rgb(28, 21, 24)] hover:text-[#e43720] transition-colors whitespace-nowrap pr-8">
+                            <h1 className="text-[clamp(42px,6vw,96px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors pr-8">
                                 SING FOR YOUR SLUMBER
                             </h1>
                         </Link>
@@ -81,7 +81,7 @@ export default function Header() {
                         </a>
                         <div className="w-full overflow-visible">
                             <Link href="/" className="block w-full">
-                                <h1 className="text-[clamp(42px,8vw,72px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors whitespace-nowrap text-center px-4 -mx-4">
+                                <h1 className="text-[clamp(32px,6vw,72px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center px-2">
                                     SING FOR YOUR SLUMBER
                                 </h1>
                             </Link>

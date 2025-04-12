@@ -32,11 +32,11 @@ export default function Header() {
                 <div className="hidden md:grid grid-cols-[minmax(0,1fr)_auto] items-start px-4 md:px-8 w-full">
                     {/* Title and Navigation Column */}
                     <div className="flex flex-col min-w-0">
-                        <Link href="/" className="block">
-                            <h1 className="text-[clamp(42px,6vw,96px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors pr-8">
-                                SING FOR YOUR SLUMBER
-                            </h1>
-                        </Link>
+                        <h1 className="text-[clamp(42px,6vw,96px)] leading-[1.2] font-[RideSlow] tracking-tight text-[#231f20] pr-8">
+                            <Link href="/">
+                                <span className="hover:text-[#e43720] transition-colors">SING FOR YOUR SLUMBER</span>
+                            </Link>
+                        </h1>
                         {/* Navigation directly under title */}
                         <div className="mt-2">
                             <Navigation variant="desktop" />
@@ -80,11 +80,11 @@ export default function Header() {
                             />
                         </a>
                         <div className="w-full overflow-visible">
-                            <Link href="/" className="block w-full">
-                                <h1 className="text-[clamp(38px,7vw,72px)] leading-[1.1] font-[RideSlow] tracking-tight text-[#231f20] hover:text-[#e43720] transition-colors text-center px-2">
-                                    SING FOR YOUR SLUMBER
-                                </h1>
-                            </Link>
+                            <h1 className="text-[clamp(38px,7vw,72px)] leading-[1.1] font-[RideSlow] tracking-tight text-[#231f20] text-center px-2">
+                                <Link href="/">
+                                    <span className="hover:text-[#e43720] transition-colors">SING FOR YOUR SLUMBER</span>
+                                </Link>
+                            </h1>
                         </div>
                         <Navigation variant="mobile" />
                     </div>

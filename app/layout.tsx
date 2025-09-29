@@ -87,7 +87,7 @@ export default function RootLayout({
                 </main>
                 <div className="flex flex-col items-center py-12">
                     <img
-                        src="/Bose.png"
+                        src="/bose.png"
                         alt="Powered by Bose"
                         className="w-full min-w-[200px] max-w-[250px] md:max-w-[300px] lg:max-w-[350px] px-4"
                     />

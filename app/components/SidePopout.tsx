@@ -15,15 +15,46 @@ export default function SidePopout({
 }: SidePopoutProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(true);
+    const [popoutBottom, setPopoutBottom] = useState(0);
     const initializedRef = useRef(false);
+
+    // Function to calculate optimal bottom position for the + button
+    const calculateBottomPosition = (forceMobile = null) => {
+        const mobileCheck = forceMobile !== null ? forceMobile : isMobile;
+        if (mobileCheck) {
+            setPopoutBottom(0);
+            return;
+        }
+
+        // Find the footer element
+        const footer = document.querySelector('footer');
+        if (!footer) {
+            setPopoutBottom(0);
+            return;
+        }
+
+        const footerRect = footer.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const footerTop = footerRect.top;
+
+        // If footer is visible, position the + button at the top edge of the footer
+        if (footerTop < viewportHeight && footerTop > 0) {
+            // Position the + button exactly at the top edge of the footer
+            const newBottom = viewportHeight - footerTop;
+            setPopoutBottom(newBottom);
+        } else {
+            // Footer not in view, stick to bottom
+            setPopoutBottom(0);
+        }
+    };
 
     // Run once on component mount to set initial state
     useEffect(() => {
         if (initializedRef.current) return;
         initializedRef.current = true;
 
-        // Check if mobile
-        const mobile = window.innerWidth < 768;
+        // Check if mobile - use a more reliable detection
+        const mobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         setIsMobile(mobile);
 
         // Check if user has manually closed it in this session
@@ -33,16 +64,44 @@ export default function SidePopout({
         // Open on desktop by default, unless previously closed
         setIsOpen(!mobile && !manuallyClosed);
 
-        // Set up resize handler
-        const handleResize = () => {
-            const isMobileView = window.innerWidth < 768;
-            setIsMobile(isMobileView);
-            // Note: We don't automatically reopen on resize
+        // Calculate initial position
+        setTimeout(() => calculateBottomPosition(mobile), 100);
+    }, []);
+
+    // Separate useEffect for scroll and resize events
+    useEffect(() => {
+        if (isMobile) return;
+
+        const handleScroll = () => {
+            calculateBottomPosition();
         };
 
+        const handleResize = () => {
+            const isMobileView = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            setIsMobile(isMobileView);
+            if (!isMobileView) {
+                calculateBottomPosition();
+            }
+        };
+
+        document.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+
+        // Also recalculate on a timer to catch any missed updates
+        const interval = setInterval(() => {
+            if (!isMobile) {
+                calculateBottomPosition();
+            }
+        }, 100);
+
+        return () => {
+            document.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
+            clearInterval(interval);
+        };
+    }, [isMobile]);
 
     // Handle close with tracking in localStorage
     const handleClose = () => {
@@ -56,8 +115,9 @@ export default function SidePopout({
         localStorage.removeItem('touristsRadioManuallyClosed');
     };
 
+
     return (
-        <div className={`fixed bottom-0 z-50 ${position === 'left' ? 'left-0' : 'right-0'}`}>
+        <div className={`fixed z-50 ${position === 'left' ? 'left-0' : 'right-0'}`} style={{ bottom: `${popoutBottom}px` }}>
             {/* Popout content */}
             <div
                 id="side-popout"
@@ -71,6 +131,7 @@ export default function SidePopout({
                     }`}
                 style={{
                     width: '380px',
+                    maxHeight: 'calc(100vh - 320px)', // Leave space for header and footer
                     background: '#121212',
                     border: '1px solid #121212',
                     transformOrigin: position === 'left' ? 'left bottom' : 'right bottom'
@@ -95,7 +156,7 @@ export default function SidePopout({
                 </div>
 
                 {/* Main content - Spotify player with proper sizing */}
-                <div style={{ height: '80px' }}>
+                <div style={{ height: '80px', overflow: 'hidden' }}>
                     <iframe
                         src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
                         width="100%"

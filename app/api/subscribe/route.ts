@@ -54,11 +54,10 @@ export async function POST(request: Request) {
                 }
             )
 
-            const memberData = await memberCheckResponse.json()
-            console.log('Member check response:', memberData)
-
             // If member exists, update their status
             if (memberCheckResponse.ok) {
+                const memberData = await memberCheckResponse.json()
+                console.log('Member check response:', memberData)
                 console.log('Existing member found with status:', memberData.status)
 
                 if (memberData.status === 'subscribed') {
@@ -95,6 +94,14 @@ export async function POST(request: Request) {
                     message: 'Please check your email to confirm your subscription!',
                     status: 'pending'
                 })
+            } else if (memberCheckResponse.status === 404) {
+                // Member doesn't exist, will create new subscription below
+                console.log('Member not found, will create new subscription')
+            } else {
+                // Other error occurred
+                const errorData = await memberCheckResponse.json()
+                console.error('Member check failed:', errorData)
+                throw new Error(`Member check failed: ${errorData.detail || 'Unknown error'}`)
             }
 
             // If member doesn't exist, create new subscription
